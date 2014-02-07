@@ -42,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09B3702018A58A860005B16E /* HPLastFm.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HPLastFm.podspec; sourceTree = "<group>"; };
 		09E48EC918A0BA2500097D1F /* libHPLastFm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHPLastFm.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		09E48ECC18A0BA2500097D1F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09E48ED018A0BA2500097D1F /* HPLastFm-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPLastFm-Prefix.pch"; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		09E48EC018A0BA2500097D1F = {
 			isa = PBXGroup;
 			children = (
+				09B3702018A58A860005B16E /* HPLastFm.podspec */,
 				09E48ECE18A0BA2500097D1F /* HPLastFm */,
 				09E48EE218A0BA2500097D1F /* HPLastFmTests */,
 				09E48ECB18A0BA2500097D1F /* Frameworks */,
@@ -409,6 +411,7 @@
 				09E48EEE18A0BA2500097D1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		09E48EEF18A0BA2500097D1F /* Build configuration list for PBXNativeTarget "HPLastFmTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +420,7 @@
 				09E48EF118A0BA2500097D1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
