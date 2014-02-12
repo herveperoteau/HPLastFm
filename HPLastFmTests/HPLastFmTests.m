@@ -7,7 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "HPLastFm.h"
+#import "HPLastFmMapper_getInfoForArtist.h"
 
 #define API_Key @"2f3e308934e6170bf923bb3ec558b4e1"
 #define Secret  @"b53a3bb7f8a6bd6dc372bb18aef0b8ec"
@@ -73,7 +75,20 @@
     
     [lastFmManager getInfoForArtist:ARTIST1
                      successHandler:^(NSDictionary *result) {
+                         
                          NSLog(@"success: %@", result);
+                         
+                         HPLastFmMapper_getInfoForArtist *mapper = [[HPLastFmMapper_getInfoForArtist alloc] initWithDictionary:result];
+                         
+                         NSLog(@"Mapper name=%@ (onTour=%d)", mapper.name, mapper.onTour);
+                         NSLog(@"Mapper bio=%@", mapper.bio);
+                         NSLog(@"Mapper small img=%@ (30 x 40 pixels environ)", mapper.urlImageSmall);
+                         NSLog(@"Mapper medium img=%@ (60 x 75 pixels environ)", mapper.urlImageMedium);
+                         NSLog(@"Mapper large img=%@ (120 x 150 pixels environ)" , mapper.urlImageLarge);
+                         NSLog(@"Mapper mega img=%@ (500 x 600 pixels environ)", mapper.urlImageMega);
+                         
+                         
+                         
                          dispatch_semaphore_signal(semaphore);
                      }
                      failureHandler:^(NSError *error) {

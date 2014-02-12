@@ -47,7 +47,7 @@ typedef enum {
 
 typedef void (^LastFmReturnBlockWithObject)(id result);
 typedef void (^LastFmReturnBlockWithDictionary)(NSDictionary *result);
-typedef void (^LastFmReturnBlockWithArray)(NSArray *result);
+//typedef void (^LastFmReturnBlockWithArray)(NSArray *result);
 typedef void (^LastFmReturnBlockWithError)(NSError *error);
 
 

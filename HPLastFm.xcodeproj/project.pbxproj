@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09BFB50018AB49CA00812C38 /* HPLastMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB4FF18AB49CA00812C38 /* HPLastMapper.m */; };
+		09BFB50318AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */; };
 		09E48ECD18A0BA2500097D1F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E48ECC18A0BA2500097D1F /* Foundation.framework */; };
 		09E48ED218A0BA2500097D1F /* HPLastFm.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09E48ED118A0BA2500097D1F /* HPLastFm.h */; };
 		09E48ED418A0BA2500097D1F /* HPLastFm.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E48ED318A0BA2500097D1F /* HPLastFm.m */; };
@@ -16,6 +18,7 @@
 		09E48EE118A0BA2500097D1F /* libHPLastFm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E48EC918A0BA2500097D1F /* libHPLastFm.a */; };
 		09E48EE718A0BA2500097D1F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09E48EE518A0BA2500097D1F /* InfoPlist.strings */; };
 		09E48EE918A0BA2500097D1F /* HPLastFmTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E48EE818A0BA2500097D1F /* HPLastFmTests.m */; };
+		434FD39B2AB2402699448BF4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F635D41C20A4F969045ACD2 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,10 @@
 
 /* Begin PBXFileReference section */
 		09B3702018A58A860005B16E /* HPLastFm.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HPLastFm.podspec; sourceTree = "<group>"; };
+		09BFB4FE18AB49CA00812C38 /* HPLastMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastMapper.h; sourceTree = "<group>"; };
+		09BFB4FF18AB49CA00812C38 /* HPLastMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastMapper.m; sourceTree = "<group>"; };
+		09BFB50118AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getInfoForArtist.h; sourceTree = "<group>"; };
+		09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper_getInfoForArtist.m; sourceTree = "<group>"; };
 		09E48EC918A0BA2500097D1F /* libHPLastFm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHPLastFm.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		09E48ECC18A0BA2500097D1F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09E48ED018A0BA2500097D1F /* HPLastFm-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPLastFm-Prefix.pch"; sourceTree = "<group>"; };
@@ -54,6 +61,8 @@
 		09E48EE418A0BA2500097D1F /* HPLastFmTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HPLastFmTests-Info.plist"; sourceTree = "<group>"; };
 		09E48EE618A0BA2500097D1F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		09E48EE818A0BA2500097D1F /* HPLastFmTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPLastFmTests.m; sourceTree = "<group>"; };
+		83F7D57F7F5F4BE09448EA40 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9F635D41C20A4F969045ACD2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09E48ECD18A0BA2500097D1F /* Foundation.framework in Frameworks */,
+				434FD39B2AB2402699448BF4 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +97,7 @@
 				09E48EE218A0BA2500097D1F /* HPLastFmTests */,
 				09E48ECB18A0BA2500097D1F /* Frameworks */,
 				09E48ECA18A0BA2500097D1F /* Products */,
+				83F7D57F7F5F4BE09448EA40 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +116,7 @@
 				09E48ECC18A0BA2500097D1F /* Foundation.framework */,
 				09E48EDA18A0BA2500097D1F /* XCTest.framework */,
 				09E48EDD18A0BA2500097D1F /* UIKit.framework */,
+				9F635D41C20A4F969045ACD2 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -114,6 +126,10 @@
 			children = (
 				09E48ED118A0BA2500097D1F /* HPLastFm.h */,
 				09E48ED318A0BA2500097D1F /* HPLastFm.m */,
+				09BFB50118AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.h */,
+				09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */,
+				09BFB4FE18AB49CA00812C38 /* HPLastMapper.h */,
+				09BFB4FF18AB49CA00812C38 /* HPLastMapper.m */,
 				09E48ECF18A0BA2500097D1F /* Supporting Files */,
 			);
 			path = HPLastFm;
@@ -152,9 +168,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09E48EEC18A0BA2500097D1F /* Build configuration list for PBXNativeTarget "HPLastFm" */;
 			buildPhases = (
+				87B6804B061245878A910F54 /* Check Pods Manifest.lock */,
 				09E48EC518A0BA2500097D1F /* Sources */,
 				09E48EC618A0BA2500097D1F /* Frameworks */,
 				09E48EC718A0BA2500097D1F /* CopyFiles */,
+				CA7123791C9E4143B6CCA1D0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -221,12 +239,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		87B6804B061245878A910F54 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CA7123791C9E4143B6CCA1D0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		09E48EC518A0BA2500097D1F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09BFB50018AB49CA00812C38 /* HPLastMapper.m in Sources */,
 				09E48ED418A0BA2500097D1F /* HPLastFm.m in Sources */,
+				09BFB50318AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +385,7 @@
 		};
 		09E48EED18A0BA2500097D1F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 83F7D57F7F5F4BE09448EA40 /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/HPLastFm.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -344,6 +398,7 @@
 		};
 		09E48EEE18A0BA2500097D1F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 83F7D57F7F5F4BE09448EA40 /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/HPLastFm.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -370,6 +425,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "HPLastFmTests/HPLastFmTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -387,6 +448,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HPLastFm/HPLastFm-Prefix.pch";
 				INFOPLIST_FILE = "HPLastFmTests/HPLastFmTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
