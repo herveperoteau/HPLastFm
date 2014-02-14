@@ -39,5 +39,26 @@
     return s;
 }
 
+-(NSString *) urlImageFromJSON:(NSArray *)imagesJSON SizeName:(NSString *)sizeName {
+    
+    __block NSString *result = nil;
+    
+    [imagesJSON enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        NSDictionary *img = obj;
+        
+        NSString *sizeImg = [img valueForKey:@"size"];
+        
+        if ([sizeImg isEqualToString:sizeName]) {
+            
+            result = [img valueForKey:@"#text"];
+            *stop = YES;
+        }
+    }];
+    
+    return result;
+}
+
+
 
 @end

@@ -325,8 +325,8 @@
             return;
         }
 
-        //NSString *strData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        //NSLog(@"%@ result data=%@", self.class, strData);
+        NSString *strData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"%@ result data=%@", self.class, strData);
         
         NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data
                                                              options:0
@@ -395,12 +395,16 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getEventsForArtist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getEventsForArtist:(NSString *)artist
+                              Limit:(NSInteger)limit
+                               page:(NSInteger)page
+                     successHandler:(LastFmReturnBlockWithDictionary)successHandler
+                     failureHandler:(LastFmReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getEvents"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist] }
+                              withParams:@{ @"artist": [self forceString:artist], @"limit": @(limit), @"page": @(page) }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }

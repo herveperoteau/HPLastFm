@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#define kSizeMedium @"medium"
+#define kSizeLarge @"large"
+#define kSizeMega @"mega"
+
 @interface HPLastMapper : NSObject
 
--(id)initWithDictionary:(NSDictionary *)dico;
-
 @property (nonatomic, readonly) NSDictionary *datas;
+
+-(id)initWithDictionary:(NSDictionary *)dico;
+-(NSString *) urlImageFromJSON:(NSArray *)imagesJSON SizeName:(NSString *)sizeName;
 
 +(NSString *) stringByStrippingHTML:(NSString *)original;
 

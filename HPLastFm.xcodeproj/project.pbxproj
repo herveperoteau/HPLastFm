@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		09BFB50018AB49CA00812C38 /* HPLastMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB4FF18AB49CA00812C38 /* HPLastMapper.m */; };
 		09BFB50318AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */; };
+		09BFB51718ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB51618ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m */; };
+		09BFB51A18ADF35D00812C38 /* HPLastFm_Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB51918ADF35D00812C38 /* HPLastFm_Event.m */; };
+		09BFB51D18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB51C18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.m */; };
 		09E48ECD18A0BA2500097D1F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09E48ECC18A0BA2500097D1F /* Foundation.framework */; };
 		09E48ED218A0BA2500097D1F /* HPLastFm.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09E48ED118A0BA2500097D1F /* HPLastFm.h */; };
 		09E48ED418A0BA2500097D1F /* HPLastFm.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E48ED318A0BA2500097D1F /* HPLastFm.m */; };
@@ -50,6 +53,12 @@
 		09BFB4FF18AB49CA00812C38 /* HPLastMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastMapper.m; sourceTree = "<group>"; };
 		09BFB50118AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getInfoForArtist.h; sourceTree = "<group>"; };
 		09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper_getInfoForArtist.m; sourceTree = "<group>"; };
+		09BFB51518ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getInfoForAlbum.h; sourceTree = "<group>"; };
+		09BFB51618ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper_getInfoForAlbum.m; sourceTree = "<group>"; };
+		09BFB51818ADF35D00812C38 /* HPLastFm_Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFm_Event.h; sourceTree = "<group>"; };
+		09BFB51918ADF35D00812C38 /* HPLastFm_Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFm_Event.m; sourceTree = "<group>"; };
+		09BFB51B18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getEventsForArtist.h; sourceTree = "<group>"; };
+		09BFB51C18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper_getEventsForArtist.m; sourceTree = "<group>"; };
 		09E48EC918A0BA2500097D1F /* libHPLastFm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHPLastFm.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		09E48ECC18A0BA2500097D1F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09E48ED018A0BA2500097D1F /* HPLastFm-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HPLastFm-Prefix.pch"; sourceTree = "<group>"; };
@@ -126,6 +135,12 @@
 			children = (
 				09E48ED118A0BA2500097D1F /* HPLastFm.h */,
 				09E48ED318A0BA2500097D1F /* HPLastFm.m */,
+				09BFB51818ADF35D00812C38 /* HPLastFm_Event.h */,
+				09BFB51918ADF35D00812C38 /* HPLastFm_Event.m */,
+				09BFB51B18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.h */,
+				09BFB51C18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.m */,
+				09BFB51518ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.h */,
+				09BFB51618ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m */,
 				09BFB50118AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.h */,
 				09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */,
 				09BFB4FE18AB49CA00812C38 /* HPLastMapper.h */,
@@ -277,9 +292,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09BFB51718ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m in Sources */,
 				09BFB50018AB49CA00812C38 /* HPLastMapper.m in Sources */,
 				09E48ED418A0BA2500097D1F /* HPLastFm.m in Sources */,
 				09BFB50318AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m in Sources */,
+				09BFB51D18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.m in Sources */,
+				09BFB51A18ADF35D00812C38 /* HPLastFm_Event.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

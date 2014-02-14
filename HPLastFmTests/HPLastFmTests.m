@@ -10,6 +10,9 @@
 
 #import "HPLastFm.h"
 #import "HPLastFmMapper_getInfoForArtist.h"
+#import "HPLastFmMapper_getInfoForAlbum.h"
+#import "HPLastFmMapper_getEventsForArtist.h"
+
 
 #define API_Key @"2f3e308934e6170bf923bb3ec558b4e1"
 #define Secret  @"b53a3bb7f8a6bd6dc372bb18aef0b8ec"
@@ -82,13 +85,12 @@
                          
                          NSLog(@"Mapper name=%@ (onTour=%d)", mapper.name, mapper.onTour);
                          NSLog(@"Mapper bio=%@", mapper.bio);
-                         NSLog(@"Mapper small img=%@ (30 x 40 pixels environ)", mapper.urlImageSmall);
                          NSLog(@"Mapper medium img=%@ (60 x 75 pixels environ)", mapper.urlImageMedium);
                          NSLog(@"Mapper large img=%@ (120 x 150 pixels environ)" , mapper.urlImageLarge);
                          NSLog(@"Mapper mega img=%@ (500 x 600 pixels environ)", mapper.urlImageMega);
-                         
-                         
-                         
+                         NSLog(@"Mapper tags=%@", mapper.tags);
+                         NSLog(@"Mapper similarArtists=%@", mapper.similarArtists);
+
                          dispatch_semaphore_signal(semaphore);
                      }
                      failureHandler:^(NSError *error) {
@@ -108,10 +110,18 @@
 {
     NSLog(@"testGetEventsForArtist1 ... ");
     
-    [lastFmManager getEventsForArtist:ARTIST1
-                     successHandler:^(NSDictionary *result) {
-                         NSLog(@"success: %@", result);
-                         dispatch_semaphore_signal(semaphore);
+    [lastFmManager getEventsForArtist:@"indochine"
+                                Limit:10
+                                 page:1
+                           successHandler:^(NSDictionary *result) {
+                               
+                               NSLog(@"success: %@", result);
+                               
+                               HPLastFmMapper_getEventsForArtist *mapper = [[HPLastFmMapper_getEventsForArtist alloc] initWithDictionary:result];
+                               
+                               NSLog(@"artist: %@", mapper.artist);
+                               
+                               dispatch_semaphore_signal(semaphore);
                      }
                      failureHandler:^(NSError *error) {
                          NSLog(@"failure: %@", error);
@@ -201,7 +211,19 @@
     [lastFmManager getInfoForAlbum:ALBUM1
                             artist:ARTIST1
                         successHandler:^(NSDictionary *result) {
+                            
                             NSLog(@"success: %@", result);
+
+                            HPLastFmMapper_getInfoForAlbum *mapper = [[HPLastFmMapper_getInfoForAlbum alloc] initWithDictionary:result];
+
+                            NSLog(@"artist: %@", mapper.artist);
+                            NSLog(@"title: %@", mapper.title);
+                            NSLog(@"year: %@", mapper.year);
+                            NSLog(@"urlImageMedium: %@", mapper.urlImageMedium);
+                            NSLog(@"urlImageLarge: %@", mapper.urlImageLarge);
+                            NSLog(@"urlImageMega: %@", mapper.urlImageMega);
+                            NSLog(@"wiki: %@", mapper.wiki);
+                            
                             dispatch_semaphore_signal(semaphore);
                         }
                         failureHandler:^(NSError *error) {
@@ -216,6 +238,7 @@
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:20]];
     NSLog(@"test_getInfoForAlbum Ended.");
 }
+
 
 - (void)test_getTracksForAlbum
 {

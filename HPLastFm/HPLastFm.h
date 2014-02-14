@@ -82,6 +82,8 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
                    failureHandler:(LastFmReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getEventsForArtist:(NSString *)artist
+                              Limit:(NSInteger)limit
+                               page:(NSInteger)page
                      successHandler:(LastFmReturnBlockWithDictionary)successHandler
                      failureHandler:(LastFmReturnBlockWithError)failureHandler;
 
