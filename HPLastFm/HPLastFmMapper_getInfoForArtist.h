@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastMapper.h"
+#import "HPLastFmMapper.h"
 
 #define kSimilarArtistName @"NAME"
 #define kSimilarArtistImageMedium @"URL_IMAGE_MEDIUM"
 #define kSimilarArtistImageLarge @"URL_IMAGE_LARGE"
 #define kSimilarArtistImageMega @"URL_IMAGE_MEGA"
 
-@interface HPLastFmMapper_getInfoForArtist : HPLastMapper
+@interface HPLastFmMapper_getInfoForArtist : HPLastFmMapper
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *bio;

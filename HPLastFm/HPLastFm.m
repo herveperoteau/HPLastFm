@@ -268,23 +268,7 @@
         if ([weakOp isCancelled]) {
             return;
         }
-        
-//        // Do we need to POST or GET?
-//        BOOL doPost = YES;
-//        NSArray *methodParts = [method componentsSeparatedByString:@"."];
-//        
-//        NSLog(@"methodParts=%@", methodParts);
-//        
-//        if ([methodParts count] > 1) {
-//            NSString *secondPart = [methodParts objectAtIndex:1];
-//            
-//            NSLog(@"secondPart=%@", secondPart);
-//            
-//            if ([secondPart hasPrefix:@"get"]) {
-//                doPost = NO;
-//            }
-//        }
-        
+                
         NSMutableURLRequest *request;
         if (doPost) {
             request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:API_URL]];
@@ -305,15 +289,15 @@
         NSHTTPURLResponse *response;
         NSError *error;
         
-        NSLog(@"%@.sendSynchronousRequest %@ (doPost=%d)...", self.class, request.URL, doPost);
+//        NSLog(@"%@.sendSynchronousRequest %@ (doPost=%d)...", self.class, request.URL, doPost);
         
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if ([weakOp isCancelled]) {
             return;
         }
         
-        NSNumber *maxAgeNumber = [response.allHeaderFields objectForKey:@"Access-Control-Max-Age"];
-        NSLog (@"%@.maxAgeNumber = %@", self.class, maxAgeNumber);
+//        NSNumber *maxAgeNumber = [response.allHeaderFields objectForKey:@"Access-Control-Max-Age"];
+//        NSLog (@"%@.maxAgeNumber = %@", self.class, maxAgeNumber);
         
         // Check for NSURLConnection errors
         if (error) {
@@ -325,8 +309,8 @@
             return;
         }
 
-        NSString *strData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@ result data=%@", self.class, strData);
+//        NSString *strData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@ result data=%@", self.class, strData);
         
         NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data
                                                              options:0

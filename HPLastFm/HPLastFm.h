@@ -62,6 +62,7 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 @property (nonatomic) BOOL nextRequestIgnoresCache;
 
 + (HPLastFm *)sharedInstance;
+
 - (NSString *)forceString:(NSString *)value;
 
 - (NSOperation *)performApiCallForMethod:(NSString*)method

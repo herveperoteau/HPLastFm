@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastMapper.h"
+#import "HPLastFmMapper.h"
 
-@interface HPLastFm_Event : HPLastMapper
+@interface HPLastFm_Event : HPLastFmMapper
 
 @property (nonatomic, readonly) NSString *artistHeadliner;
 @property (nonatomic, readonly) NSString *descriptionEvent;
@@ -16,11 +16,10 @@
 @property (nonatomic, readonly) CLLocationCoordinate2D gps;
 @property (nonatomic, readonly) NSString *city;
 @property (nonatomic, readonly) NSString *country;
-@property (nonatomic, readonly) NSString *address;
 @property (nonatomic, readonly) NSString *webSite;
 @property (nonatomic, readonly) NSString *phoneNumber;
 @property (nonatomic, readonly) NSString *urlImage;
-@property (nonatomic, readonly) NSDate *date;
-@property (nonatomic, assign) BOOL cancelled;
+@property (nonatomic, readonly) NSString *startDate; // "Fri, 27 Jun 2014 18:30:00";
+@property (nonatomic, readonly) BOOL cancelled;
 
 @end

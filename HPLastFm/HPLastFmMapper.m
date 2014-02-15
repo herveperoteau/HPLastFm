@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastMapper.h"
+#import "HPLastFmMapper.h"
 
-@interface HPLastMapper()
+@interface HPLastFmMapper()
 
 @property (nonatomic, strong) NSDictionary *datas;
 
 @end
 
-@implementation HPLastMapper
+@implementation HPLastFmMapper
 
 -(id)initWithDictionary:(NSDictionary *)dico {
     

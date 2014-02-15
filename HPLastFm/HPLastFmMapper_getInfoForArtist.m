@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSString *urlImageMedium;
 @property (nonatomic, strong) NSString *urlImageLarge;
 @property (nonatomic, strong) NSString *urlImageMega;
-@property (nonatomic, assign) BOOL onTour;
+@property (nonatomic, assign) NSNumber *onTourNumber;
 @property (nonatomic, strong) NSArray *tags; // Array of NSString
 @property (nonatomic, strong) NSArray *similarArtists;  // Array of NSString
 
@@ -82,9 +82,12 @@
 
 -(BOOL) onTour {
     
-    NSNumber *onTourJSON = [self.datas valueForKeyPath:@"artist.ontour"];
-    self.onTour = onTourJSON.boolValue;
-    return _onTour;
+    if (!_onTourNumber) {
+
+        self.onTourNumber = [self.datas valueForKeyPath:@"artist.ontour"];
+    }
+    
+    return self.onTourNumber.boolValue;
 }
 
 -(NSArray *)tags {

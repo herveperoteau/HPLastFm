@@ -12,6 +12,7 @@
 #import "HPLastFmMapper_getInfoForArtist.h"
 #import "HPLastFmMapper_getInfoForAlbum.h"
 #import "HPLastFmMapper_getEventsForArtist.h"
+#import "HPLastFm_Event.h"
 
 
 #define API_Key @"2f3e308934e6170bf923bb3ec558b4e1"
@@ -106,20 +107,75 @@
     NSLog(@"testGetInfoForArtist1 Ended.");
 }
 
-- (void)testGetEventsForArtist1
+
+-(void)testGetEventsForArtistIndochine
+{
+    [self getEventsForArtist1:@"indochine"];
+}
+
+-(void)testGetEventsForArtistStrokes
+{
+    [self getEventsForArtist1:@"strokes"];
+}
+
+-(void)testGetEventsForArtistLorde
+{
+    [self getEventsForArtist1:@"lorde"];
+}
+
+-(void)testGetEventsForArtistKatyPerry
+{
+    [self getEventsForArtist1:@"katy perry"];
+}
+
+-(void)getEventsForArtist1:(NSString *)artist {
+    
+    NSInteger numPage = 0;
+    NSInteger maxPages = 0;
+    
+    do {
+        numPage++;
+        maxPages = [self getEventsForArtist1:artist Page:numPage];
+    }
+    while (numPage < maxPages);
+}
+
+- (NSInteger)getEventsForArtist1:(NSString *)artist Page:(NSInteger)page
 {
     NSLog(@"testGetEventsForArtist1 ... ");
+    __block NSInteger nbPages = 0;
     
-    [lastFmManager getEventsForArtist:@"indochine"
+    [lastFmManager getEventsForArtist:artist
                                 Limit:10
-                                 page:1
+                                 page:page
                            successHandler:^(NSDictionary *result) {
                                
-                               NSLog(@"success: %@", result);
+                               //NSLog(@"success: %@", result);
                                
                                HPLastFmMapper_getEventsForArtist *mapper = [[HPLastFmMapper_getEventsForArtist alloc] initWithDictionary:result];
                                
                                NSLog(@"artist: %@", mapper.artist);
+                               
+                               
+                               NSLog(@"page: %d / %d (Size Page=%d) (total=%d)", mapper.page, mapper.totalPages, mapper.perPage, mapper.total);
+                               
+                               nbPages = mapper.totalPages;
+                               
+                               [mapper.events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                   
+                                   HPLastFm_Event *event = obj;
+                                   
+                                   NSLog(@"Date: %@ (cancel=%d)", event.startDate, event.cancelled);
+                                   NSLog(@"artist: %@", event.artistHeadliner);
+                                   NSLog(@"descriptionEvent: %@", event.descriptionEvent);
+                                   NSLog(@"locationName: %@, %@(%@) GPS (%f, %f)", event.locationName, event.city, event.country,
+                                         event.gps.latitude, event.gps.longitude);
+                                   NSLog(@"web: %@", event.webSite);
+                                   NSLog(@"tel: %@", event.phoneNumber);
+                                   NSLog(@"image: %@", event.urlImage);
+                                   
+                                   NSLog(@"-------------------------------------------------------");
+                               }];
                                
                                dispatch_semaphore_signal(semaphore);
                      }
@@ -134,22 +190,31 @@
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:20]];
     NSLog(@"testGetEventsForArtist1 Ended.");
+    
+    return nbPages;
 }
 
 - (void)test_getTopAlbumsForArtist
 {
-    NSLog(@"test_getTopAlbumsForArtist ... ");
+//    [self getTopAlbumsForArtist:@"rihanna"];
+    [self getTopAlbumsForArtist:@"the strokes"];
+    [self getTopAlbumsForArtist:@"muse"];
+}
+
+- (void)getTopAlbumsForArtist:(NSString *)artist
+{
+    NSLog(@"test_getTopAlbumsForArtist %@ ... ", artist);
     
-    [lastFmManager getTopAlbumsForArtist:ARTIST1
-                       successHandler:^(NSDictionary *result) {
-                           NSLog(@"success: %@", result);
-                           dispatch_semaphore_signal(semaphore);
-                       }
-                       failureHandler:^(NSError *error) {
-                           NSLog(@"failure: %@", error);
-                           XCTAssertTrue(NO, @"error: %@", [error localizedDescription]);
-                           dispatch_semaphore_signal(semaphore);
-                       }];
+    [lastFmManager getTopAlbumsForArtist:artist
+                          successHandler:^(NSDictionary *result) {
+                              NSLog(@"success: %@", result);
+                              dispatch_semaphore_signal(semaphore);
+                          }
+                          failureHandler:^(NSError *error) {
+                              NSLog(@"failure: %@", error);
+                              XCTAssertTrue(NO, @"error: %@", [error localizedDescription]);
+                              dispatch_semaphore_signal(semaphore);
+                          }];
     
     NSLog(@"test_getTopAlbumsForArtist wait ... ");
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
@@ -157,6 +222,7 @@
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:20]];
     NSLog(@"test_getTopAlbumsForArtist Ended.");
 }
+
 
 
 - (void)test_getTopTracksForArtist

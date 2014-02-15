@@ -10,9 +10,10 @@
 
 #define kSizeMedium @"medium"
 #define kSizeLarge @"large"
+#define kSizeExtraLarge @"extralarge"
 #define kSizeMega @"mega"
 
-@interface HPLastMapper : NSObject
+@interface HPLastFmMapper : NSObject
 
 @property (nonatomic, readonly) NSDictionary *datas;
 

@@ -7,23 +7,46 @@
 //
 
 #import "HPLastFmMapper_getEventsForArtist.h"
+#import "HPLastFm_Event.h"
+
+@interface HPLastFmMapper_getEventsForArtist ()
+
+@property (nonatomic, strong) NSArray *events;  // Array of HPLastFm_Event
+
+@end
 
 @implementation HPLastFmMapper_getEventsForArtist
 
--(NSString *) artist {
+-(NSArray *) events {
     
-    if (!_artist) {
+    if (!_events) {
         
-        NSDictionary *events = [self.datas objectForKey:@"events"];
-        NSDictionary *attr = [events objectForKey:@"@attr"];
-        self.artist = [attr objectForKey:@"artist"];
+        NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
+        
+        id eventJSON = [self.datas valueForKeyPath:@"events.event"];
+        
+        if ( [eventJSON isKindOfClass:[NSArray class]] ) {
+        
+            NSArray *eventArrayJSON = eventJSON;
+            
+            [eventArrayJSON enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                NSDictionary *eventJSON = obj;
+                HPLastFm_Event *event = [[HPLastFm_Event alloc] initWithDictionary:eventJSON];
+                [tmpArray addObject:event];
+            }];
+        }
+        else if ( [eventJSON isKindOfClass:[NSDictionary class]] ) {
+        
+            // Only one item
+            HPLastFm_Event *event = [[HPLastFm_Event alloc] initWithDictionary:eventJSON];
+            [tmpArray addObject:event];
+        }
+        
+        self.events = [NSArray arrayWithArray:tmpArray];
     }
     
-    return _artist;
+    return _events;
 }
-
-
-
 
 
 @end
