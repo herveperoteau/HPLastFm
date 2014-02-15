@@ -55,7 +55,7 @@
         //"    19 Nov 2012, 00:00"
         NSRange comma = [dateReleaseStr rangeOfString:@", "];
         
-        if (comma.location >= 4) {
+        if (comma.location != NSNotFound && comma.location >= 4) {
             
             self.year = [dateReleaseStr substringWithRange:NSMakeRange(comma.location-4, 4)];
         }

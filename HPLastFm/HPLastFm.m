@@ -289,7 +289,7 @@
         NSHTTPURLResponse *response;
         NSError *error;
         
-//        NSLog(@"%@.sendSynchronousRequest %@ (doPost=%d)...", self.class, request.URL, doPost);
+        //NSLog(@"%@.sendSynchronousRequest %@ (doPost=%d)...", self.class, request.URL, doPost);
         
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if ([weakOp isCancelled]) {
@@ -316,7 +316,7 @@
                                                              options:0
                                                                error:&error];
 
-        //NSLog(@"%@ result JSON=%@", self.class, JSON);
+       // NSLog(@"%@ result JSON=%@", self.class, JSON);
         
         // Check for JSON parsing errors
         if (error) {
@@ -430,7 +430,7 @@
     return [self performApiCallForMethod:@"album.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"album": [self forceString:album] }
+                              withParams:@{ @"artist": [self forceString:artist], @"album": [self forceString:album], @"autocorrect": @"1" }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
