@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09600C9B18AFBA7500039AEE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BFB51E18AE93F300812C38 /* CoreLocation.framework */; };
 		099983B418AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 099983B318AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m */; };
 		099983B718AF9DBC00D5064C /* HPLastFm_TopAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 099983B618AF9DBC00D5064C /* HPLastFm_TopAlbum.m */; };
 		099983BA18AFA06200D5064C /* HPLastFmMapperPaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 099983B918AFA06200D5064C /* HPLastFmMapperPaging.m */; };
@@ -90,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09600C9B18AFBA7500039AEE /* CoreLocation.framework in Frameworks */,
 				09E48ECD18A0BA2500097D1F /* Foundation.framework in Frameworks */,
 				434FD39B2AB2402699448BF4 /* libPods.a in Frameworks */,
 			);
