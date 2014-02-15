@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *artist;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *year;
+@property (nonatomic, strong) NSString *urlImage;
 @property (nonatomic, strong) NSString *urlImageMedium;
 @property (nonatomic, strong) NSString *urlImageLarge;
 @property (nonatomic, strong) NSString *urlImageMega;
@@ -27,7 +28,8 @@
     
     if (!_artist) {
         
-        self.artist = [self.datas valueForKeyPath:@"album.artist"];
+        NSString *jsonString = [self.datas valueForKeyPath:@"album.artist"];
+        self.artist = [jsonString stringByConvertingHTMLToPlainText];
     }
     
     return _artist;
@@ -37,7 +39,8 @@
     
     if (!_title) {
         
-        self.title = [self.datas valueForKeyPath:@"album.name"];
+        NSString *jsonString = [self.datas valueForKeyPath:@"album.name"];
+        self.title = [jsonString stringByConvertingHTMLToPlainText];
     }
     
     return _title;
@@ -61,6 +64,20 @@
     return _year;
 }
 
+-(NSString *) urlImage {
+    
+    NSString *result = [self urlImageMega];
+    
+    if (result.length == 0) {
+        result = [self urlImageLarge];
+    }
+    
+    if (result.length == 0) {
+        result = [self urlImageMedium];
+    }
+    
+    return result;
+}
 
 -(NSString *) urlImageMedium {
     

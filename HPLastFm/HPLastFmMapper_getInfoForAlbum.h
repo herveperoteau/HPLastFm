@@ -13,9 +13,7 @@
 @property (nonatomic, readonly) NSString *artist;
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) NSString *year;
-@property (nonatomic, readonly) NSString *urlImageMedium;
-@property (nonatomic, readonly) NSString *urlImageLarge;
-@property (nonatomic, readonly) NSString *urlImageMega;
+@property (nonatomic, readonly) NSString *urlImage;
 @property (nonatomic, readonly) NSString *wiki;
 
 @end

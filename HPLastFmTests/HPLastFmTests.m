@@ -86,9 +86,7 @@
                          
                          NSLog(@"Mapper name=%@ (onTour=%d)", mapper.name, mapper.onTour);
                          NSLog(@"Mapper bio=%@", mapper.bio);
-                         NSLog(@"Mapper medium img=%@ (60 x 75 pixels environ)", mapper.urlImageMedium);
-                         NSLog(@"Mapper large img=%@ (120 x 150 pixels environ)" , mapper.urlImageLarge);
-                         NSLog(@"Mapper mega img=%@ (500 x 600 pixels environ)", mapper.urlImageMega);
+                         NSLog(@"Mapper img=%@", mapper.urlImage);
                          NSLog(@"Mapper tags=%@", mapper.tags);
                          NSLog(@"Mapper similarArtists=%@", mapper.similarArtists);
 
@@ -285,9 +283,7 @@
                             NSLog(@"artist: %@", mapper.artist);
                             NSLog(@"title: %@", mapper.title);
                             NSLog(@"year: %@", mapper.year);
-                            NSLog(@"urlImageMedium: %@", mapper.urlImageMedium);
-                            NSLog(@"urlImageLarge: %@", mapper.urlImageLarge);
-                            NSLog(@"urlImageMega: %@", mapper.urlImageMega);
+                            NSLog(@"urlImage: %@", mapper.urlImage);
                             NSLog(@"wiki: %@", mapper.wiki);
                             
                             dispatch_semaphore_signal(semaphore);

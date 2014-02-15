@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *bio;
+@property (nonatomic, strong) NSString *urlImage;
 @property (nonatomic, strong) NSString *urlImageMedium;
 @property (nonatomic, strong) NSString *urlImageLarge;
 @property (nonatomic, strong) NSString *urlImageMega;
@@ -28,7 +29,8 @@
 
     if (!_name) {
         
-        self.name = [self.datas valueForKeyPath:@"artist.name"];
+        NSString *jsonString = [self.datas valueForKeyPath:@"artist.name"];
+        self.name = [jsonString stringByConvertingHTMLToPlainText];
     }
     
     return _name;
@@ -45,6 +47,21 @@
     }
     
     return _bio;
+}
+
+-(NSString *) urlImage {
+    
+    NSString *result = [self urlImageMega];
+    
+    if (result.length == 0) {
+        result = [self urlImageLarge];
+    }
+
+    if (result.length == 0) {
+        result = [self urlImageMedium];
+    }
+    
+    return result;
 }
 
 -(NSString *) urlImageMedium {
@@ -102,7 +119,8 @@
             
             NSDictionary *tag = obj;
             
-            NSString *name = [tag valueForKey:@"name"];
+            NSString *jsonString = [tag valueForKey:@"name"];
+            NSString *name = [jsonString stringByConvertingHTMLToPlainText];
 
             if (name) {
                 
@@ -128,7 +146,8 @@
             
             NSDictionary *artist = obj;
 
-            NSArray *name = [artist valueForKey:@"name"];
+            NSString *jsonString = [artist valueForKey:@"name"];
+            NSString *name = [jsonString stringByConvertingHTMLToPlainText];
             
             if (name) {
                 
@@ -139,10 +158,11 @@
                 NSArray *images = [artist valueForKey:@"image"];
 
                 if (images) {
-                    for (NSString *key in @[kSizeMedium, kSizeLarge, kSizeMega]) {
+                    for (NSString *key in @[kSizeMega, kSizeLarge, kSizeMedium]) {
                         NSString *urlImage = [self urlImageFromJSON:images SizeName:key];
                         if (urlImage) {
-                            [similar setObject:urlImage forKey:key];
+                            [similar setObject:urlImage forKey:kSimilarArtistImage];
+                            break;
                         }
                     }
                 }
@@ -156,7 +176,5 @@
     
     return _similarArtists;
 }
-
-
 
 @end
