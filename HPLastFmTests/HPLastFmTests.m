@@ -272,8 +272,8 @@
 {
     NSLog(@"test_getInfoForAlbum ... ");
     
-    [lastFmManager getInfoForAlbum:@"reprise des negociations"
-                            artist:@"benabar"
+    [lastFmManager getInfoForAlbum:@"les chansons de l'innocence retrouvée"
+                            artist:@"Etienne Daho"
                         successHandler:^(NSDictionary *result) {
                             
                             NSLog(@"success: %@", result);
@@ -807,7 +807,22 @@
     [self.class cleanPrefixAlbumTitle:@"blabla dsf dsfsd fds 01, dsfds"];
 }
 
+-(void) testCleanAccent  {
+
+    NSLog(@"%@", [self.class cleanAccents:@"étienne"]);
+    NSLog(@"%@", [self.class cleanAccents:@"éàèùç"]);
+    NSLog(@"%@", [self.class cleanAccents:@"ÀÉÈÙ"]);
+}
+
 #pragma mark - Private
+
++(NSString *) cleanAccents:(NSString *) item {
+    
+    NSMutableString *string = [item mutableCopy];
+    CFStringTransform((__bridge CFMutableStringRef)(string), NULL, kCFStringTransformStripCombiningMarks, NO);
+    return [NSString stringWithString:string];
+    //return [item stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+}
 
 +(NSString *) cleanPrefixAlbumTitle:(NSString *) title {
     

@@ -316,7 +316,7 @@
                                                              options:0
                                                                error:&error];
 
-        //NSLog(@"%@ result JSON=%@", self.class, JSON);
+        //NSLog(@"%@ url=%@ result JSON=%@", self.class, request.URL, JSON);
         
         // Check for JSON parsing errors
         if (error) {
