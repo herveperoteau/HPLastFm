@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *urlImageLarge;
 @property (nonatomic, strong) NSString *urlImageMega;
 @property (nonatomic, strong) NSString *wiki;
+@property (nonatomic, strong) NSNumber *isValidNumber;
 
 @end
 
@@ -65,6 +66,10 @@
 }
 
 -(NSString *) urlImage {
+    
+    if ( ![self isValid] ) {
+        return nil;
+    }
     
     NSString *result = [self urlImageMega];
     
@@ -125,5 +130,23 @@
     
     return _wiki;
 }
+
+-(BOOL) isValid {
+    
+    if (!_isValidNumber) {
+        
+        NSString *urlMega = [self urlImageMega];
+        
+        _isValidNumber = [NSNumber numberWithBool:YES];
+        
+        if ( [urlMega rangeOfString:@"stats.clean"].location != NSNotFound ) {
+            // "http://userserve-ak.last.fm/serve/_/72728954/Reprise+des+Negociations+Keep+stats+clean.png";
+            _isValidNumber = [NSNumber numberWithBool:NO];
+        }
+    }
+    
+    return self.isValidNumber.boolValue;
+}
+
 
 @end

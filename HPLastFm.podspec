@@ -9,5 +9,4 @@ Pod::Spec.new do |s|
   s.source = { :git => "https://github.com/herveperoteau/HPLastFm.git"}
   s.source_files = 'HPLastFm'
   s.requires_arc = true
-  s.framework = 'CoreLocation'
 end

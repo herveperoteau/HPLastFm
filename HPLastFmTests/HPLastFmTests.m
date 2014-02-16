@@ -272,8 +272,8 @@
 {
     NSLog(@"test_getInfoForAlbum ... ");
     
-    [lastFmManager getInfoForAlbum:ALBUM1
-                            artist:ARTIST1
+    [lastFmManager getInfoForAlbum:@"reprise des negociations"
+                            artist:@"benabar"
                         successHandler:^(NSDictionary *result) {
                             
                             NSLog(@"success: %@", result);
@@ -795,8 +795,40 @@
     NSLog(@"test_getEventsForLocationToulouse Ended.");
 }
 
+-(void) testRegexp {
+    
+    [self.class cleanPrefixAlbumTitle:@"1- Blabla   "];
+    [self.class cleanPrefixAlbumTitle:@"01- Blabla   "];
+    [self.class cleanPrefixAlbumTitle:@"01, Blabla   "];
+    [self.class cleanPrefixAlbumTitle:@"01* Blabla   "];
+    [self.class cleanPrefixAlbumTitle:@"01: Blabla   "];
+    [self.class cleanPrefixAlbumTitle:@"01 Blabla   "];
+    [self.class cleanPrefixAlbumTitle:@"1964"];
+    [self.class cleanPrefixAlbumTitle:@"blabla dsf dsfsd fds 01, dsfds"];
+}
 
 #pragma mark - Private
+
++(NSString *) cleanPrefixAlbumTitle:(NSString *) title {
+    
+    NSString *result = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    //01, title
+    
+    NSRange rangePrefixNumber = [result rangeOfString:@"^\\d{1,2}[ *,:-]" options:NSRegularExpressionSearch];
+    
+    NSLog(@"rangePrefixNumber.location=%d lenght=%d", rangePrefixNumber.location, rangePrefixNumber.length);
+
+    if (rangePrefixNumber.location != NSNotFound) {
+        
+        result = [result substringFromIndex:rangePrefixNumber.location+rangePrefixNumber.length];
+        result = [result stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
+    
+    NSLog(@"cleanPrefixAlbumTitle(%@)=(%@)", title, result);
+
+    return result;
+}
 
 -(NSDictionary *) getSessionUser {
 
