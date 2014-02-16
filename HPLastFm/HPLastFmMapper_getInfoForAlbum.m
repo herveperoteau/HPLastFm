@@ -139,7 +139,7 @@
         
         _isValidNumber = [NSNumber numberWithBool:YES];
         
-        if ( [urlMega rangeOfString:@"stats.clean"].location != NSNotFound ) {
+        if ( [urlMega rangeOfString:@"stats+clean"].location != NSNotFound ) {
             // "http://userserve-ak.last.fm/serve/_/72728954/Reprise+des+Negociations+Keep+stats+clean.png";
             _isValidNumber = [NSNumber numberWithBool:NO];
         }
