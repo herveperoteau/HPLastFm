@@ -273,7 +273,7 @@
     NSLog(@"test_getInfoForAlbum ... ");
     
     [lastFmManager getInfoForAlbum:@"les chansons de l'innocence retrouvée"
-                            artist:@"Etienne Daho"
+                            artist:@"Étienne daho"
                         successHandler:^(NSDictionary *result) {
                             
                             NSLog(@"success: %@", result);
