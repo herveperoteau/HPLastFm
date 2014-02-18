@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSNumber *onTourNumber;
 @property (nonatomic, strong) NSArray *tags; // Array of NSString
 @property (nonatomic, strong) NSArray *similarArtists;  // Array of NSString
+@property (nonatomic, strong) NSNumber *isValidNumber;
 
 @end
 
@@ -51,6 +52,10 @@
 
 -(NSString *) urlImage {
     
+    if ( ![self isValid] ) {
+        return nil;
+    }
+
     NSString *result = [self urlImageMega];
     
     if (result.length == 0) {
@@ -176,5 +181,23 @@
     
     return _similarArtists;
 }
+
+-(BOOL) isValid {
+    
+    if (!_isValidNumber) {
+        
+        NSString *urlMega = [self urlImageMega];
+        
+        _isValidNumber = [NSNumber numberWithBool:YES];
+        
+        if ( [urlMega rangeOfString:@"stats+clean"].location != NSNotFound ) {
+            // "http://userserve-ak.last.fm/serve/_/72728954/Reprise+des+Negociations+Keep+stats+clean.png";
+            _isValidNumber = [NSNumber numberWithBool:NO];
+        }
+    }
+    
+    return self.isValidNumber.boolValue;
+}
+
 
 @end
