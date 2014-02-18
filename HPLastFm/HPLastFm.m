@@ -10,6 +10,7 @@
 
 #import "HPLastFm.h"
 #include <CommonCrypto/CommonDigest.h>
+#import <ISDiskCache.h>
 
 #define API_URL @"https://ws.audioscrobbler.com/2.0/"
 
@@ -28,14 +29,22 @@
 }
 
 - (id)init {
+    
     self = [super init];
+    
     if (self) {
         self.apiKey = @"";
         self.apiSecret = @"";
         self.queue = [[NSOperationQueue alloc] init];
         self.maxConcurrentOperationCount = 4;
         self.timeoutInterval = 10;
+        
+        [[ISDiskCache sharedCache] setLimitOfSize:100 * 1024 * 1024]; // 100MB
+        
+        NSDate *datePurgeCache = [NSDate dateWithTimeIntervalSinceNow:-86400*7];
+        [[ISDiskCache sharedCache] removeObjectsByAccessedDate:datePurgeCache];
     }
+    
     return self;
 }
 
@@ -291,7 +300,21 @@
         
         //NSLog(@"%@.sendSynchronousRequest %@ (doPost=%d)...", self.class, request.URL, doPost);
         
-        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        NSData *data;
+        
+        if (useCache) {
+            data = [[ISDiskCache sharedCache] objectForKey:signature];
+        }
+        
+        if (data) {
+
+            NSLog(@"%@.request %@ (sign:%@) IN CACHE", self.class, request.URL, signature);
+        }
+        else {
+            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            [[ISDiskCache sharedCache] setObject:data forKey:signature];
+        }
+        
         if ([weakOp isCancelled]) {
             return;
         }
