@@ -144,8 +144,16 @@
     if (!_similarArtists) {
         
         NSMutableArray *tmp = [[NSMutableArray alloc] init];
+
+        NSArray *artists = nil;
         
-        NSArray *artists = [self.datas valueForKeyPath:@"artist.similar.artist"];
+        @try {
+            artists = [self.datas valueForKeyPath:@"artist.similar.artist"];
+        }
+        @catch (NSException *exception) {
+            // invalid artist
+            return nil;
+        }
         
         [artists enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             
@@ -193,6 +201,14 @@
         if ( [urlMega rangeOfString:@"stats+clean"].location != NSNotFound ) {
             // "http://userserve-ak.last.fm/serve/_/72728954/Reprise+des+Negociations+Keep+stats+clean.png";
             _isValidNumber = [NSNumber numberWithBool:NO];
+        }
+        
+        if (_isValidNumber.boolValue) {
+            // check if json complete
+            NSArray *test = self.similarArtists;
+            if (test == nil) {
+                _isValidNumber = [NSNumber numberWithBool:NO];
+            }
         }
     }
     

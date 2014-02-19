@@ -13,6 +13,7 @@
 
 @interface HPLastFmMapper_getInfoForArtist : HPLastFmMapper
 
+@property (nonatomic, readonly) BOOL isValid;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *bio;
 @property (nonatomic, readonly) NSString *urlImage;

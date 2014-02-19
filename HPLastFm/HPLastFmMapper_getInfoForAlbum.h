@@ -10,6 +10,7 @@
 
 @interface HPLastFmMapper_getInfoForAlbum : HPLastFmMapper
 
+@property (nonatomic, readonly) BOOL isValid;
 @property (nonatomic, readonly) NSString *artist;
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) NSString *year;

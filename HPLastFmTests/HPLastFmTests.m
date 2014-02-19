@@ -61,10 +61,6 @@
     lastFmManager = [HPLastFm sharedInstance];
     lastFmManager.apiKey = API_Key;
     lastFmManager.apiSecret = Secret;
-    
-    NSDictionary *sessionJSON = [self getSessionUser];
-    [lastFmManager setSession:sessionJSON[@"key"]];
-    [lastFmManager setUsername:sessionJSON[@"name"]];
 }
 
 - (void)tearDown
@@ -73,22 +69,36 @@
     [super tearDown];
 }
 
+-(void)login {
+    
+    NSDictionary *sessionJSON = [self getSessionUser];
+    [lastFmManager setSession:sessionJSON[@"key"]];
+    [lastFmManager setUsername:sessionJSON[@"name"]];
+}
+
 - (void)testGetInfoForArtist1
 {
     NSLog(@"testGetInfoForArtist1 ... ");
     
-    [lastFmManager getInfoForArtist:ARTIST1
+  //  [self login];
+    
+    [lastFmManager getInfoForArtist:@"THE DO"
                      successHandler:^(NSDictionary *result) {
                          
                          NSLog(@"success: %@", result);
                          
                          HPLastFmMapper_getInfoForArtist *mapper = [[HPLastFmMapper_getInfoForArtist alloc] initWithDictionary:result];
+
+                         NSLog(@"Mapper isValid=%d", mapper.isValid);
                          
-                         NSLog(@"Mapper name=%@ (onTour=%d)", mapper.name, mapper.onTour);
-                         NSLog(@"Mapper bio=%@", mapper.bio);
-                         NSLog(@"Mapper img=%@", mapper.urlImage);
-                         NSLog(@"Mapper tags=%@", mapper.tags);
-                         NSLog(@"Mapper similarArtists=%@", mapper.similarArtists);
+                         if (mapper.isValid) {
+                             
+                             NSLog(@"Mapper name=%@ (onTour=%d)", mapper.name, mapper.onTour);
+                             NSLog(@"Mapper bio=%@", mapper.bio);
+                             NSLog(@"Mapper img=%@", mapper.urlImage);
+                             NSLog(@"Mapper tags=%@", mapper.tags);
+                             NSLog(@"Mapper similarArtists=%@", mapper.similarArtists);
+                         }
 
                          dispatch_semaphore_signal(semaphore);
                      }
