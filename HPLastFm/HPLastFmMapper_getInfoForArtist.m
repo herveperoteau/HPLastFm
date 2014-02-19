@@ -145,7 +145,7 @@
         
         NSMutableArray *tmp = [[NSMutableArray alloc] init];
 
-        NSArray *artists = nil;
+        id artists = nil;
         
         @try {
             artists = [self.datas valueForKeyPath:@"artist.similar.artist"];
@@ -153,6 +153,12 @@
         @catch (NSException *exception) {
             // invalid artist
             return nil;
+        }
+        
+        // Only one item
+        if ([artists isKindOfClass:NSDictionary.class]) {
+            NSArray *tmp = [NSArray arrayWithObject:artists];
+            artists = tmp;
         }
         
         [artists enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
