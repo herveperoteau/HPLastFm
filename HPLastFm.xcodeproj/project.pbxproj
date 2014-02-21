@@ -7,11 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0932922918B7344400E4EE21 /* HPEventFul.m in Sources */ = {isa = PBXBuildFile; fileRef = 0932922818B7344400E4EE21 /* HPEventFul.m */; };
+		0932922A18B7344400E4EE21 /* HPEventFul.m in Sources */ = {isa = PBXBuildFile; fileRef = 0932922818B7344400E4EE21 /* HPEventFul.m */; };
+		0932922D18B7358200E4EE21 /* HPMusicServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0932922C18B7358200E4EE21 /* HPMusicServices.m */; };
+		0932922E18B7358200E4EE21 /* HPMusicServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0932922C18B7358200E4EE21 /* HPMusicServices.m */; };
+		0932922F18B7ECE800E4EE21 /* HPLastFm.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E48ED318A0BA2500097D1F /* HPLastFm.m */; };
 		09600C9B18AFBA7500039AEE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BFB51E18AE93F300812C38 /* CoreLocation.framework */; };
 		099983B418AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 099983B318AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m */; };
 		099983B718AF9DBC00D5064C /* HPLastFm_TopAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 099983B618AF9DBC00D5064C /* HPLastFm_TopAlbum.m */; };
 		099983BA18AFA06200D5064C /* HPLastFmMapperPaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 099983B918AFA06200D5064C /* HPLastFmMapperPaging.m */; };
-		09BFB50018AB49CA00812C38 /* HPLastFmMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB4FF18AB49CA00812C38 /* HPLastFmMapper.m */; };
+		09BFB50018AB49CA00812C38 /* HPJSONMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB4FF18AB49CA00812C38 /* HPJSONMapper.m */; };
 		09BFB50318AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */; };
 		09BFB51718ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB51618ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m */; };
 		09BFB51A18ADF35D00812C38 /* HPLastFm_Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 09BFB51918ADF35D00812C38 /* HPLastFm_Event.m */; };
@@ -53,6 +58,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0932922718B7344400E4EE21 /* HPEventFul.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPEventFul.h; sourceTree = "<group>"; };
+		0932922818B7344400E4EE21 /* HPEventFul.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPEventFul.m; sourceTree = "<group>"; };
+		0932922B18B7358200E4EE21 /* HPMusicServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMusicServices.h; sourceTree = "<group>"; };
+		0932922C18B7358200E4EE21 /* HPMusicServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMusicServices.m; sourceTree = "<group>"; };
 		099983B218AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getTopAlbumsForArtist.h; sourceTree = "<group>"; };
 		099983B318AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper_getTopAlbumsForArtist.m; sourceTree = "<group>"; };
 		099983B518AF9DBC00D5064C /* HPLastFm_TopAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFm_TopAlbum.h; sourceTree = "<group>"; };
@@ -60,8 +69,8 @@
 		099983B818AFA06200D5064C /* HPLastFmMapperPaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapperPaging.h; sourceTree = "<group>"; };
 		099983B918AFA06200D5064C /* HPLastFmMapperPaging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapperPaging.m; sourceTree = "<group>"; };
 		09B3702018A58A860005B16E /* HPLastFm.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HPLastFm.podspec; sourceTree = "<group>"; };
-		09BFB4FE18AB49CA00812C38 /* HPLastFmMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper.h; sourceTree = "<group>"; };
-		09BFB4FF18AB49CA00812C38 /* HPLastFmMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper.m; sourceTree = "<group>"; };
+		09BFB4FE18AB49CA00812C38 /* HPJSONMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPJSONMapper.h; sourceTree = "<group>"; };
+		09BFB4FF18AB49CA00812C38 /* HPJSONMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPJSONMapper.m; sourceTree = "<group>"; };
 		09BFB50118AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getInfoForArtist.h; sourceTree = "<group>"; };
 		09BFB50218AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLastFmMapper_getInfoForArtist.m; sourceTree = "<group>"; };
 		09BFB51518ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLastFmMapper_getInfoForAlbum.h; sourceTree = "<group>"; };
@@ -148,14 +157,16 @@
 		09E48ECE18A0BA2500097D1F /* HPLastFm */ = {
 			isa = PBXGroup;
 			children = (
+				0932922718B7344400E4EE21 /* HPEventFul.h */,
+				0932922818B7344400E4EE21 /* HPEventFul.m */,
+				09BFB4FE18AB49CA00812C38 /* HPJSONMapper.h */,
+				09BFB4FF18AB49CA00812C38 /* HPJSONMapper.m */,
 				09E48ED118A0BA2500097D1F /* HPLastFm.h */,
 				09E48ED318A0BA2500097D1F /* HPLastFm.m */,
 				09BFB51818ADF35D00812C38 /* HPLastFm_Event.h */,
 				09BFB51918ADF35D00812C38 /* HPLastFm_Event.m */,
 				099983B518AF9DBC00D5064C /* HPLastFm_TopAlbum.h */,
 				099983B618AF9DBC00D5064C /* HPLastFm_TopAlbum.m */,
-				09BFB4FE18AB49CA00812C38 /* HPLastFmMapper.h */,
-				09BFB4FF18AB49CA00812C38 /* HPLastFmMapper.m */,
 				09BFB51B18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.h */,
 				09BFB51C18ADFA1700812C38 /* HPLastFmMapper_getEventsForArtist.m */,
 				09BFB51518ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.h */,
@@ -166,6 +177,8 @@
 				099983B318AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m */,
 				099983B818AFA06200D5064C /* HPLastFmMapperPaging.h */,
 				099983B918AFA06200D5064C /* HPLastFmMapperPaging.m */,
+				0932922B18B7358200E4EE21 /* HPMusicServices.h */,
+				0932922C18B7358200E4EE21 /* HPMusicServices.m */,
 				09E48ECF18A0BA2500097D1F /* Supporting Files */,
 			);
 			path = HPLastFm;
@@ -313,10 +326,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0932922918B7344400E4EE21 /* HPEventFul.m in Sources */,
 				099983B418AF9D4F00D5064C /* HPLastFmMapper_getTopAlbumsForArtist.m in Sources */,
 				09BFB51718ACAC0300812C38 /* HPLastFmMapper_getInfoForAlbum.m in Sources */,
 				099983B718AF9DBC00D5064C /* HPLastFm_TopAlbum.m in Sources */,
-				09BFB50018AB49CA00812C38 /* HPLastFmMapper.m in Sources */,
+				09BFB50018AB49CA00812C38 /* HPJSONMapper.m in Sources */,
+				0932922D18B7358200E4EE21 /* HPMusicServices.m in Sources */,
 				09E48ED418A0BA2500097D1F /* HPLastFm.m in Sources */,
 				099983BA18AFA06200D5064C /* HPLastFmMapperPaging.m in Sources */,
 				09BFB50318AB4BF700812C38 /* HPLastFmMapper_getInfoForArtist.m in Sources */,
@@ -329,6 +344,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0932922F18B7ECE800E4EE21 /* HPLastFm.m in Sources */,
+				0932922A18B7344400E4EE21 /* HPEventFul.m in Sources */,
+				0932922E18B7358200E4EE21 /* HPMusicServices.m in Sources */,
 				09E48EE918A0BA2500097D1F /* HPLastFmTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

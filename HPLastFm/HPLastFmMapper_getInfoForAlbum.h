@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastFmMapper.h"
+#import "HPJSONMapper.h"
 
-@interface HPLastFmMapper_getInfoForAlbum : HPLastFmMapper
+@interface HPLastFmMapper_getInfoForAlbum : HPJSONMapper
 
 @property (nonatomic, readonly) BOOL isValid;
 @property (nonatomic, readonly) NSString *artist;

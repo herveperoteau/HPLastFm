@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastFmMapper.h"
+#import "HPJSONMapper.h"
 
-@interface HPLastFm_TopAlbum : HPLastFmMapper
+@interface HPLastFm_TopAlbum : HPJSONMapper
 
 @property (nonatomic, readonly) NSInteger rank;
 @property (nonatomic, readonly) NSString *artist;

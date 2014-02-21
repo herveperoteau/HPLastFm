@@ -13,7 +13,7 @@
 #define kSizeExtraLarge @"extralarge"
 #define kSizeMega @"mega"
 
-@interface HPLastFmMapper : NSObject
+@interface HPJSONMapper : NSObject
 
 @property (nonatomic, readonly) NSDictionary *datas;
 

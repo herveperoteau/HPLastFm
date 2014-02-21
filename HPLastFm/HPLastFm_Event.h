@@ -7,9 +7,9 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
-#import "HPLastFmMapper.h"
+#import "HPJSONMapper.h"
 
-@interface HPLastFm_Event : HPLastFmMapper
+@interface HPLastFm_Event : HPJSONMapper
 
 @property (nonatomic, readonly) NSString *artistHeadliner;
 @property (nonatomic, readonly) NSString *descriptionEvent;

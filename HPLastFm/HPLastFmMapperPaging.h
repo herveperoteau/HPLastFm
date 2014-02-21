@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastFmMapper.h"
+#import "HPJSONMapper.h"
 
-@interface HPLastFmMapperPaging : HPLastFmMapper
+@interface HPLastFmMapperPaging : HPJSONMapper
 
 @property (nonatomic, readonly) NSString *artist;
 @property (nonatomic, readonly) NSInteger page;

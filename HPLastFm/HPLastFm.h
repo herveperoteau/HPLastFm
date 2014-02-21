@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "HPMusicServices.h"
+
 #define LastFmServiceErrorDomain @"LastFmServiceErrorDomain"
 
 enum LastFmServiceErrorCodes {
@@ -45,32 +47,18 @@ typedef enum {
     kLastFmPeriodYear,
 } LastFmPeriod;
 
-typedef void (^LastFmReturnBlockWithObject)(id result);
-typedef void (^LastFmReturnBlockWithDictionary)(NSDictionary *result);
-//typedef void (^LastFmReturnBlockWithArray)(NSArray *result);
-typedef void (^LastFmReturnBlockWithError)(NSError *error);
+@interface HPLastFm : HPMusicServices
 
-
-@interface HPLastFm : NSObject
-
-@property (copy, nonatomic) NSString *session;
-@property (copy, nonatomic) NSString *username;
-@property (copy, nonatomic) NSString *apiKey;
 @property (copy, nonatomic) NSString *apiSecret;
-@property (nonatomic) NSInteger maxConcurrentOperationCount; // default: 4
-@property (nonatomic) NSTimeInterval timeoutInterval;        // default: 10
-@property (nonatomic) BOOL nextRequestIgnoresCache;
 
 + (HPLastFm *)sharedInstance;
-
-- (NSString *)forceString:(NSString *)value;
 
 - (NSOperation *)performApiCallForMethod:(NSString*)method
                                   doPost:(BOOL)doPost
                                 useCache:(BOOL)useCache
                               withParams:(NSDictionary *)params
-                          successHandler:(LastFmReturnBlockWithObject)successHandler
-                          failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                          successHandler:(ReturnBlockWithObject)successHandler
+                          failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (id)transformValue:(id)value intoClass:(NSString *)targetClass;
 
@@ -79,26 +67,26 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 ///----------------------------------
 
 - (NSOperation *)getInfoForArtist:(NSString *)artist
-                   successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                   failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                   successHandler:(ReturnBlockWithDictionary)successHandler
+                   failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getEventsForArtist:(NSString *)artist
                               Limit:(NSInteger)limit
                                page:(NSInteger)page
-                     successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                     failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                     successHandler:(ReturnBlockWithDictionary)successHandler
+                     failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTopAlbumsForArtist:(NSString *)artist
-                        successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                        failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                        successHandler:(ReturnBlockWithDictionary)successHandler
+                        failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTopTracksForArtist:(NSString *)artist
-                        successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                        failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                        successHandler:(ReturnBlockWithDictionary)successHandler
+                        failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getSimilarArtistsTo:(NSString *)artist
-                      successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                      failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                      successHandler:(ReturnBlockWithDictionary)successHandler
+                      failureHandler:(ReturnBlockWithError)failureHandler;
 
 ///----------------------------------
 /// @name Album methods
@@ -106,24 +94,24 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 
 - (NSOperation *)getInfoForAlbum:(NSString *)album
                           artist:(NSString *)artist
-                  successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                  failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                  successHandler:(ReturnBlockWithDictionary)successHandler
+                  failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTracksForAlbum:(NSString *)album
                             artist:(NSString *)artist
-                    successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                    failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                    successHandler:(ReturnBlockWithDictionary)successHandler
+                    failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getBuyLinksForAlbum:(NSString *)album
                               artist:(NSString *)artist
                              country:(NSString *)country
-                      successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                      failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                      successHandler:(ReturnBlockWithDictionary)successHandler
+                      failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTopTagsForAlbum:(NSString *)album
                              artist:(NSString *)artist
-                     successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                     failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                     successHandler:(ReturnBlockWithDictionary)successHandler
+                     failureHandler:(ReturnBlockWithError)failureHandler;
 
 ///----------------------------------
 /// @name Track methods
@@ -131,39 +119,39 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 
 - (NSOperation *)getInfoForTrack:(NSString *)title
                           artist:(NSString *)artist
-                  successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                  failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                  successHandler:(ReturnBlockWithDictionary)successHandler
+                  failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)loveTrack:(NSString *)title
                     artist:(NSString *)artist
-            successHandler:(LastFmReturnBlockWithDictionary)successHandler
-            failureHandler:(LastFmReturnBlockWithError)failureHandler;
+            successHandler:(ReturnBlockWithDictionary)successHandler
+            failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)unloveTrack:(NSString *)title
                       artist:(NSString *)artist
-              successHandler:(LastFmReturnBlockWithDictionary)successHandler
-              failureHandler:(LastFmReturnBlockWithError)failureHandler;
+              successHandler:(ReturnBlockWithDictionary)successHandler
+              failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)banTrack:(NSString *)title
                    artist:(NSString *)artist
-           successHandler:(LastFmReturnBlockWithDictionary)successHandler
-           failureHandler:(LastFmReturnBlockWithError)failureHandler;
+           successHandler:(ReturnBlockWithDictionary)successHandler
+           failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)unbanTrack:(NSString *)title
                      artist:(NSString *)artist
-             successHandler:(LastFmReturnBlockWithDictionary)successHandler
-             failureHandler:(LastFmReturnBlockWithError)failureHandler;
+             successHandler:(ReturnBlockWithDictionary)successHandler
+             failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getBuyLinksForTrack:(NSString *)title
                               artist:(NSString *)artist
                              country:(NSString *)country
-                      successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                      failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                      successHandler:(ReturnBlockWithDictionary)successHandler
+                      failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getSimilarTracksTo:(NSString *)title
                              artist:(NSString *)artist
-                     successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                     failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                     successHandler:(ReturnBlockWithDictionary)successHandler
+                     failureHandler:(ReturnBlockWithError)failureHandler;
 
 ///----------------------------------
 /// @name Authenticated User methods
@@ -172,37 +160,37 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 //- (NSOperation *)createUserWithUsername:(NSString *)username
 //                               password:(NSString *)password
 //                                  email:(NSString *)email
-//                         successHandler:(LastFmReturnBlockWithDictionary)successHandler
-//                         failureHandler:(LastFmReturnBlockWithError)failureHandler;
+//                         successHandler:(ReturnBlockWithDictionary)successHandler
+//                         failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getSessionForUser:(NSString *)username
                           password:(NSString *)password
-                    successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                    failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                    successHandler:(ReturnBlockWithDictionary)successHandler
+                    failureHandler:(ReturnBlockWithError)failureHandler;
 
-- (NSOperation *)getSessionInfoWithSuccessHandler:(LastFmReturnBlockWithDictionary)successHandler
-                                   failureHandler:(LastFmReturnBlockWithError)failureHandler;
+- (NSOperation *)getSessionInfoWithSuccessHandler:(ReturnBlockWithDictionary)successHandler
+                                   failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)sendNowPlayingTrack:(NSString *)track
                             byArtist:(NSString *)artist
                              onAlbum:(NSString *)album
-                      successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                      failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                      successHandler:(ReturnBlockWithDictionary)successHandler
+                      failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)sendScrobbledTrack:(NSString *)track
                            byArtist:(NSString *)artist
                             onAlbum:(NSString *)album
                         atTimestamp:(NSTimeInterval)timestamp
-                     successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                     failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                     successHandler:(ReturnBlockWithDictionary)successHandler
+                     failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getNewReleasesForUserBasedOnRecommendations:(BOOL)basedOnRecommendations
-                                              successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                                              failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                                              successHandler:(ReturnBlockWithDictionary)successHandler
+                                              failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getRecommendedAlbumsWithLimit:(NSInteger)limit
-                                successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                                failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                                successHandler:(ReturnBlockWithDictionary)successHandler
+                                failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (void)logout;
 
@@ -211,42 +199,42 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 ///----------------------------------
 
 - (NSOperation *)getInfoForUserOrNil:(NSString *)username
-                      successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                      failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                      successHandler:(ReturnBlockWithDictionary)successHandler
+                      failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTopArtistsForUserOrNil:(NSString *)username
                                     period:(LastFmPeriod)period
                                      limit:(NSInteger)limit
-                            successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                            failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                            successHandler:(ReturnBlockWithDictionary)successHandler
+                            failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getRecentTracksForUserOrNil:(NSString *)username
                                        limit:(NSInteger)limit
-                              successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                              failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                              successHandler:(ReturnBlockWithDictionary)successHandler
+                              failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getLovedTracksForUserOrNil:(NSString *)username
                                       limit:(NSInteger)limit
-                             successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                             failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                             successHandler:(ReturnBlockWithDictionary)successHandler
+                             failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTopTracksForUserOrNil:(NSString *)username
                                    period:(LastFmPeriod)period
                                     limit:(NSInteger)limit
-                           successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                           failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                           successHandler:(ReturnBlockWithDictionary)successHandler
+                           failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getEventsForUserOrNil:(NSString *)username
                          festivalsOnly:(BOOL)festivalsonly
                                  limit:(NSInteger)limit
-                        successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                        failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                        successHandler:(ReturnBlockWithDictionary)successHandler
+                        failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTopAlbumsForUserOrNil:(NSString *)username
                                    period:(LastFmPeriod)period
                                     limit:(NSInteger)limit
-                           successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                           failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                           successHandler:(ReturnBlockWithDictionary)successHandler
+                           failureHandler:(ReturnBlockWithError)failureHandler;
 
 ///----------------------------------
 /// @name Chart methods
@@ -254,13 +242,13 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
 
 - (NSOperation *)getTopTracksWithLimit:(NSInteger)limit
                                   page:(NSInteger)page
-                        successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                        failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                        successHandler:(ReturnBlockWithDictionary)successHandler
+                        failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getHypedTracksWithLimit:(NSInteger)limit
                                     page:(NSInteger)page
-                          successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                          failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                          successHandler:(ReturnBlockWithDictionary)successHandler
+                          failureHandler:(ReturnBlockWithError)failureHandler;
 
 ///----------------------------------
 /// @name Geo methods
@@ -271,15 +259,15 @@ typedef void (^LastFmReturnBlockWithError)(NSError *error);
                                   Page:(NSInteger)page
                                  Limit:(NSInteger)limit
                                  Tag:(NSString *)tag
-                       successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                       failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                       successHandler:(ReturnBlockWithDictionary)successHandler
+                       failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getEventsForLocation:(NSString *)location
                                  Page:(NSInteger)page
                                 Limit:(NSInteger)limit
                                   Tag:(NSString *)tag
-                        successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                        failureHandler:(LastFmReturnBlockWithError)failureHandler;
+                        successHandler:(ReturnBlockWithDictionary)successHandler
+                        failureHandler:(ReturnBlockWithError)failureHandler;
 
 
 

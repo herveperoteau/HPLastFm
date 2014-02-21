@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastFmMapper.h"
+#import "HPJSONMapper.h"
 
 #define kSimilarArtistName @"NAME"
 #define kSimilarArtistImage @"IMAGE"
 
-@interface HPLastFmMapper_getInfoForArtist : HPLastFmMapper
+@interface HPLastFmMapper_getInfoForArtist : HPJSONMapper
 
 @property (nonatomic, readonly) BOOL isValid;
 @property (nonatomic, readonly) NSString *name;

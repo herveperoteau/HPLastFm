@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastFmMapper.h"
+#import "HPJSONMapper.h"
 
 
 // BOF BOF ca renvoit trop de chose qui ne sont pas de vrai albums !!!
-@interface HPLastFmMapper_getTopAlbumsForArtist : HPLastFmMapper
+@interface HPLastFmMapper_getTopAlbumsForArtist : HPJSONMapper
 
 @end

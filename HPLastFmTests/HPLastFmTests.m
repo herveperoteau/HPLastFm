@@ -61,6 +61,8 @@
     lastFmManager = [HPLastFm sharedInstance];
     lastFmManager.apiKey = API_Key;
     lastFmManager.apiSecret = Secret;
+    
+    [self login];
 }
 
 - (void)tearDown
@@ -698,8 +700,8 @@
     
     [lastFmManager getEventsForLongitude:TOULOUSE_LON
                                 Latitude:TOULOUSE_LAT
-                                    Page:0
-                                   Limit:0
+                                    Page:1
+                                   Limit:50
                                      Tag:nil
      
                                   successHandler:^(NSDictionary *result) {

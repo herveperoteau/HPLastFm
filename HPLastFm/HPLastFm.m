@@ -9,13 +9,10 @@
 //
 
 #import "HPLastFm.h"
-#include <CommonCrypto/CommonDigest.h>
-#import <ISDiskCache.h>
 
 #define API_URL @"https://ws.audioscrobbler.com/2.0/"
 
 @interface HPLastFm ()
-@property (nonatomic, strong) NSOperationQueue *queue;
 @end
 
 
@@ -28,30 +25,6 @@
     return sharedInstance;
 }
 
-- (id)init {
-    
-    self = [super init];
-    
-    if (self) {
-        self.apiKey = @"";
-        self.apiSecret = @"";
-        self.queue = [[NSOperationQueue alloc] init];
-        self.maxConcurrentOperationCount = 4;
-        self.timeoutInterval = 10;
-        
-        [[ISDiskCache sharedCache] setLimitOfSize:100 * 1024 * 1024]; // 100MB
-        
-        NSDate *datePurgeCache = [NSDate dateWithTimeIntervalSinceNow:-86400*7];
-        [[ISDiskCache sharedCache] removeObjectsByAccessedDate:datePurgeCache];
-    }
-    
-    return self;
-}
-
-- (void)setMaxConcurrentOperationCount:(NSInteger)maxConcurrentOperationCount {
-    _maxConcurrentOperationCount = maxConcurrentOperationCount;
-    self.queue.maxConcurrentOperationCount = _maxConcurrentOperationCount;
-}
 
 + (NSDateFormatter *)dateFormatter {
     NSMutableDictionary *dictionary = [[NSThread currentThread] threadDictionary];
@@ -111,32 +84,6 @@
     return formatter;
 }
 
-#pragma mark - Private methods
-
-- (NSString *)md5sumFromString:(NSString *)string {
-	unsigned char digest[CC_MD5_DIGEST_LENGTH], i;
-	CC_MD5([string UTF8String], [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
-	NSMutableString *ms = [NSMutableString string];
-	for (i=0;i<CC_MD5_DIGEST_LENGTH;i++) {
-		[ms appendFormat: @"%02x", (int)(digest[i])];
-	}
-	return [ms copy];
-}
-
-- (NSString*)urlEscapeString:(id)unencodedString {
-    if ([unencodedString isKindOfClass:[NSString class]]) {
-        NSString *s = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(
-                                                                                            NULL,
-                                                                                            (__bridge CFStringRef)unencodedString,
-                                                                                            NULL,
-                                                                                            (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                            kCFStringEncodingUTF8
-                                                                                            );
-        return s;
-    }
-    return unencodedString;
-}
-
 - (id)transformValue:(id)value intoClass:(NSString *)targetClass {
     if ([value isKindOfClass:NSClassFromString(targetClass)]) {
         return value;
@@ -181,11 +128,6 @@
     return value;
 }
 
-- (NSString *)forceString:(NSString *)value {
-    if (!value) return @"";
-    return value;
-}
-
 - (NSString *)period:(LastFmPeriod)period {
     switch (period) {
         case kLastFmPeriodOverall:
@@ -218,8 +160,8 @@
                                   doPost:(BOOL)doPost
                                 useCache:(BOOL)useCache
                               withParams:(NSDictionary *)params
-                          successHandler:(LastFmReturnBlockWithObject)successHandler
-                          failureHandler:(LastFmReturnBlockWithError)failureHandler {
+                          successHandler:(ReturnBlockWithObject)successHandler
+                          failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSMutableDictionary *newParams = [params mutableCopy];
     [newParams setObject:method forKey:@"method"];
@@ -266,8 +208,8 @@
                                 signature:(NSString *)signature
                     withSortedParamsArray:(NSArray *)sortedParamsArray
                         andOriginalParams:(NSDictionary *)originalParams
-                           successHandler:(LastFmReturnBlockWithObject)successHandler
-                           failureHandler:(LastFmReturnBlockWithError)failureHandler {
+                           successHandler:(ReturnBlockWithObject)successHandler
+                           failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSBlockOperation *op = [[NSBlockOperation alloc] init];
     __unsafe_unretained NSBlockOperation *weakOp = op;
@@ -392,7 +334,7 @@
 
 
 //http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Cher&api_key=2f3e308934e6170bf923bb3ec558b4e1&format=json
-- (NSOperation *)getInfoForArtist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForArtist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getInfo"
                                   doPost:NO
@@ -405,8 +347,8 @@
 - (NSOperation *)getEventsForArtist:(NSString *)artist
                               Limit:(NSInteger)limit
                                page:(NSInteger)page
-                     successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                     failureHandler:(LastFmReturnBlockWithError)failureHandler {
+                     successHandler:(ReturnBlockWithDictionary)successHandler
+                     failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getEvents"
                                   doPost:NO
@@ -416,7 +358,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTopAlbumsForArtist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopAlbumsForArtist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getTopAlbums"
                                   doPost:NO
@@ -426,7 +368,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTopTracksForArtist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopTracksForArtist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getTopTracks"
                                   doPost:NO
@@ -436,7 +378,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getSimilarArtistsTo:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getSimilarArtistsTo:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getSimilar"
                                   doPost:NO
@@ -448,7 +390,7 @@
 
 #pragma mark Album methods
 
-- (NSOperation *)getInfoForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"album.getInfo"
                                   doPost:NO
@@ -458,7 +400,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTracksForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTracksForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"album.getInfo"
                                   doPost:NO
@@ -468,7 +410,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getBuyLinksForAlbum:(NSString *)album artist:(NSString *)artist country:(NSString *)country successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getBuyLinksForAlbum:(NSString *)album artist:(NSString *)artist country:(NSString *)country successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"album.getBuylinks"
                                   doPost:NO
@@ -478,7 +420,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTopTagsForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopTagsForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"album.getTopTags"
                                   doPost:NO
@@ -490,7 +432,7 @@
 
 #pragma mark Track methods
 
-- (NSOperation *)getInfoForTrack:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForTrack:(NSString *)title artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"track.getInfo"
                                   doPost:NO
@@ -500,7 +442,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)loveTrack:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)loveTrack:(NSString *)title artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     return [self performApiCallForMethod:@"track.love"
                                   doPost:YES
                                 useCache:[self useCache]
@@ -509,7 +451,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)unloveTrack:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)unloveTrack:(NSString *)title artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     return [self performApiCallForMethod:@"track.unlove"
                                   doPost:YES
                                 useCache:[self useCache]
@@ -518,7 +460,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)banTrack:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)banTrack:(NSString *)title artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     return [self performApiCallForMethod:@"track.ban"
                                   doPost:YES
                                 useCache:[self useCache]
@@ -527,7 +469,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)unbanTrack:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)unbanTrack:(NSString *)title artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     return [self performApiCallForMethod:@"track.unban"
                                   doPost:YES
                                 useCache:[self useCache]
@@ -536,7 +478,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getBuyLinksForTrack:(NSString *)title artist:(NSString *)artist country:(NSString *)country successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getBuyLinksForTrack:(NSString *)title artist:(NSString *)artist country:(NSString *)country successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"track.getBuylinks"
                                   doPost:NO
@@ -546,7 +488,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getSimilarTracksTo:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getSimilarTracksTo:(NSString *)title artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"track.getsimilar"
                                   doPost:NO
@@ -559,7 +501,7 @@
 #pragma mark User methods
 
 // Please note: to use this method, your API key needs special permission
-//- (NSOperation *)createUserWithUsername:(NSString *)username password:(NSString *)password email:(NSString *)email successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+//- (NSOperation *)createUserWithUsername:(NSString *)username password:(NSString *)password email:(NSString *)email successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
 //    
 //    NSDictionary *params = @{
 //                             @"username": [self forceString:username],
@@ -575,7 +517,7 @@
 //                          failureHandler:failureHandler];
 //}
 
-//- (NSOperation *)getSessionForUser:(NSString *)username password:(NSString *)password successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+//- (NSOperation *)getSessionForUser:(NSString *)username password:(NSString *)password successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
 //    username = [self forceString:username];
 //    password = [self forceString:password];
 //    NSString *authToken = [self md5sumFromString:[NSString stringWithFormat:@"%@%@", [username lowercaseString], [self md5sumFromString:password]]];
@@ -586,7 +528,7 @@
 //                          successHandler:successHandler
 //                          failureHandler:failureHandler];
 //}
-- (NSOperation *)getSessionForUser:(NSString *)username password:(NSString *)password successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getSessionForUser:(NSString *)username password:(NSString *)password successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     username = [self forceString:username];
     password = [self forceString:password];
 //    NSString *authToken = [self md5sumFromString:[NSString stringWithFormat:@"%@%@", [username lowercaseString], [self md5sumFromString:password]]];
@@ -599,7 +541,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getSessionInfoWithSuccessHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getSessionInfoWithSuccessHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     return [self performApiCallForMethod:@"auth.getSessionInfo"
                                   doPost:NO
                                 useCache:NO
@@ -608,7 +550,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)sendNowPlayingTrack:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)sendNowPlayingTrack:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     NSDictionary *params = @{
                              @"track": [self forceString:track],
                              @"artist": [self forceString:artist],
@@ -623,7 +565,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)sendScrobbledTrack:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album atTimestamp:(NSTimeInterval)timestamp successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)sendScrobbledTrack:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album atTimestamp:(NSTimeInterval)timestamp successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     NSDictionary *params = @{
                              @"track": [self forceString:track],
                              @"artist": [self forceString:artist],
@@ -639,7 +581,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getNewReleasesForUserBasedOnRecommendations:(BOOL)basedOnRecommendations successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getNewReleasesForUserBasedOnRecommendations:(BOOL)basedOnRecommendations successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": [self forceString:self.username],
@@ -654,7 +596,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getRecommendedAlbumsWithLimit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getRecommendedAlbumsWithLimit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"user.getRecommendedAlbums"
                                   doPost:NO
@@ -672,7 +614,7 @@
 
 #pragma mark General User methods
 
-- (NSOperation *)getInfoForUserOrNil:(NSString *)username successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForUserOrNil:(NSString *)username successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{};
     if (username) {
@@ -687,7 +629,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTopArtistsForUserOrNil:(NSString *)username period:(LastFmPeriod)period limit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopArtistsForUserOrNil:(NSString *)username period:(LastFmPeriod)period limit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": username ? [self forceString:username] : [self forceString:self.username],
@@ -703,7 +645,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getRecentTracksForUserOrNil:(NSString *)username limit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getRecentTracksForUserOrNil:(NSString *)username limit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": username ? [self forceString:username] : [self forceString:self.username],
@@ -718,7 +660,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getLovedTracksForUserOrNil:(NSString *)username limit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getLovedTracksForUserOrNil:(NSString *)username limit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": username ? [self forceString:username] : [self forceString:self.username],
@@ -733,7 +675,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTopTracksForUserOrNil:(NSString *)username period:(LastFmPeriod)period limit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopTracksForUserOrNil:(NSString *)username period:(LastFmPeriod)period limit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": username ? [self forceString:username] : [self forceString:self.username],
@@ -749,7 +691,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getEventsForUserOrNil:(NSString *)username festivalsOnly:(BOOL)festivalsonly limit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getEventsForUserOrNil:(NSString *)username festivalsOnly:(BOOL)festivalsonly limit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": username ? [self forceString:username] : [self forceString:self.username],
@@ -765,7 +707,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getTopAlbumsForUserOrNil:(NSString *)username period:(LastFmPeriod)period limit:(NSInteger)limit successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopAlbumsForUserOrNil:(NSString *)username period:(LastFmPeriod)period limit:(NSInteger)limit successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSDictionary *params = @{
                              @"user": username ? [self forceString:username] : [self forceString:self.username],
@@ -783,7 +725,7 @@
 
 #pragma mark Chart methods
 
-- (NSOperation *)getTopTracksWithLimit:(NSInteger)limit page:(NSInteger)page successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getTopTracksWithLimit:(NSInteger)limit page:(NSInteger)page successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"chart.getTopTracks"
                                   doPost:NO
@@ -793,7 +735,7 @@
                           failureHandler:failureHandler];
 }
 
-- (NSOperation *)getHypedTracksWithLimit:(NSInteger)limit page:(NSInteger)page successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getHypedTracksWithLimit:(NSInteger)limit page:(NSInteger)page successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"chart.getHypedTracks"
                                   doPost:NO
@@ -810,8 +752,8 @@
                                   Page:(NSInteger)page
                                  Limit:(NSInteger)limit
                                    Tag:(NSString *)tag
-                        successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                        failureHandler:(LastFmReturnBlockWithError)failureHandler {
+                        successHandler:(ReturnBlockWithDictionary)successHandler
+                        failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     
@@ -835,8 +777,8 @@
                                  Page:(NSInteger)page
                                 Limit:(NSInteger)limit
                                   Tag:(NSString *)tag
-                       successHandler:(LastFmReturnBlockWithDictionary)successHandler
-                       failureHandler:(LastFmReturnBlockWithError)failureHandler {
+                       successHandler:(ReturnBlockWithDictionary)successHandler
+                       failureHandler:(ReturnBlockWithError)failureHandler {
     
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
