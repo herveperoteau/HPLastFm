@@ -84,10 +84,10 @@
     
   //  [self login];
     
-    [lastFmManager getInfoForArtist:@"THE DO"
+    [lastFmManager getInfoForArtist:@"INDOCHINE"
                      successHandler:^(NSDictionary *result) {
                          
-                         NSLog(@"success: %@", result);
+                         //NSLog(@"success: %@", result);
                          
                          HPLastFmMapper_getInfoForArtist *mapper = [[HPLastFmMapper_getInfoForArtist alloc] initWithDictionary:result];
 

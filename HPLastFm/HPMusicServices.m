@@ -19,17 +19,45 @@
     if (self) {
         
         self.apiKey = @"";
+        
         self.queue = [[NSOperationQueue alloc] init];
         self.maxConcurrentOperationCount = 4;
-        self.timeoutInterval = 10;
+        self.timeoutInterval = 20;
         
-        [[ISDiskCache sharedCache] setLimitOfSize:100 * 1024 * 1024]; // 100MB
+        [[ISDiskCache sharedCache] setLimitOfSize:10*1024*1024]; // 10MB
         
-        NSDate *datePurgeCache = [NSDate dateWithTimeIntervalSinceNow:-86400*7];
+        NSDate *datePurgeCache = [NSDate dateWithTimeIntervalSinceNow:-86400*5];
         [[ISDiskCache sharedCache] removeObjectsByAccessedDate:datePurgeCache];
+        
+        datePurgeCache = [NSDate dateWithTimeIntervalSinceNow:-86400*15];
+        [self purgeOldDiskCacheFiles:datePurgeCache];
     }
     
     return self;
+}
+
+-(void) purgeOldDiskCacheFiles:(NSDate *)borderDate {
+
+    [[ISDiskCache sharedCache]  removeObjectsUsingBlock:^BOOL(NSString *filePath) {
+        NSDictionary *attributes = [self attributesForFilePath:filePath];
+        NSDate *creationDate = [attributes objectForKey:NSFileCreationDate];
+        return [creationDate timeIntervalSinceDate:borderDate] < 0.0;
+    }];
+}
+
+- (NSDictionary *)attributesForFilePath:(NSString *)filePath
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSMutableDictionary *attributes = [[fileManager attributesOfItemAtPath:filePath error:&error] mutableCopy];
+    if (error) {
+        if (error.code == NSFileReadNoSuchFileError) {
+            return nil;
+        } else {
+            [NSException raise:@"ISDiskCacheException" format:@"%@", error];
+        }
+    }
+    return attributes;
 }
 
 - (void)setMaxConcurrentOperationCount:(NSInteger)maxConcurrentOperationCount {
