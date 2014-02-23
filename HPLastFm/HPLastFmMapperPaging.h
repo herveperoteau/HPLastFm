@@ -11,6 +11,8 @@
 @interface HPLastFmMapperPaging : HPJSONMapper
 
 @property (nonatomic, readonly) NSString *artist;
+@property (nonatomic, readonly) NSString *location;
+
 @property (nonatomic, readonly) NSInteger page;
 @property (nonatomic, readonly) NSInteger perPage;
 @property (nonatomic, readonly) NSInteger total;

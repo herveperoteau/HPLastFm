@@ -11,7 +11,7 @@
 #import "HPLastFm.h"
 #import "HPLastFmMapper_getInfoForArtist.h"
 #import "HPLastFmMapper_getInfoForAlbum.h"
-#import "HPLastFmMapper_getEventsForArtist.h"
+#import "HPLastFmMapper_getEvents.h"
 #import "HPLastFm_Event.h"
 
 
@@ -160,33 +160,8 @@
                                  page:page
                            successHandler:^(NSDictionary *result) {
                                
-                               //NSLog(@"success: %@", result);
-                               
-                               HPLastFmMapper_getEventsForArtist *mapper = [[HPLastFmMapper_getEventsForArtist alloc] initWithDictionary:result];
-                               
-                               NSLog(@"artist: %@", mapper.artist);
-                               
-                               
-                               NSLog(@"page: %d / %d (Size Page=%d) (total=%d)", mapper.page, mapper.totalPages, mapper.perPage, mapper.total);
-                               
-                               nbPages = mapper.totalPages;
-                               
-                               [mapper.events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                                   
-                                   HPLastFm_Event *event = obj;
-                                   
-                                   NSLog(@"Date: %@ (cancel=%d)", event.startDate, event.cancelled);
-                                   NSLog(@"artist: %@", event.artistHeadliner);
-                                   NSLog(@"descriptionEvent: %@", event.descriptionEvent);
-                                   NSLog(@"locationName: %@, %@(%@) GPS (%f, %f)", event.locationName, event.city, event.country,
-                                         event.gps.latitude, event.gps.longitude);
-                                   NSLog(@"web: %@", event.webSite);
-                                   NSLog(@"tel: %@", event.phoneNumber);
-                                   NSLog(@"image: %@", event.urlImage);
-                                   
-                                   NSLog(@"-------------------------------------------------------");
-                               }];
-                               
+//                               NSLog(@"success: %@", result);
+                               nbPages = [self showEvents:result];
                                dispatch_semaphore_signal(semaphore);
                      }
                      failureHandler:^(NSError *error) {
@@ -700,13 +675,16 @@
     
     [lastFmManager getEventsForLongitude:TOULOUSE_LON
                                 Latitude:TOULOUSE_LAT
+                                Distance:@"50"
                                     Page:1
                                    Limit:50
                                      Tag:nil
      
                                   successHandler:^(NSDictionary *result) {
                                       
-                                      NSLog(@"success: %@", result);
+//                                      NSLog(@"success: %@", result);
+                                      [self showEvents:result];
+
                                       dispatch_semaphore_signal(semaphore);
                                   }
                                   failureHandler:^(NSError *error) {
@@ -727,15 +705,19 @@
 {
     NSLog(@"test_getEventsForLocationGpsParis ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+    
     [lastFmManager getEventsForLongitude:PARIS_LON
                                 Latitude:PARIS_LAT
+                                Distance:@"50"
                                     Page:0
-                                   Limit:0
+                                   Limit:100
                                      Tag:nil
      
                           successHandler:^(NSDictionary *result) {
                               
-                              NSLog(@"success: %@", result);
+//                              NSLog(@"success: %@", result);
+                              [self showEvents:result];
                               dispatch_semaphore_signal(semaphore);
                           }
                           failureHandler:^(NSError *error) {
@@ -758,13 +740,15 @@
     
     [lastFmManager getEventsForLongitude:BARCELONE_LON
                                 Latitude:BARCELONE_LAT
+                                Distance:@"50"
                                     Page:0
                                    Limit:0
                                      Tag:nil
      
                           successHandler:^(NSDictionary *result) {
                               
-                              NSLog(@"success: %@", result);
+//                              NSLog(@"success: %@", result);
+                              [self showEvents:result];
                               dispatch_semaphore_signal(semaphore);
                           }
                           failureHandler:^(NSError *error) {
@@ -784,14 +768,17 @@
 {
     NSLog(@"test_getEventsForLocationToulouse ... ");
     
+    __block NSInteger nbPages = 0;
+
     [lastFmManager getEventsForLocation:@"toulouse"
                                    Page:0
-                                  Limit:0
+                                  Limit:50
                                     Tag:@"rock"
      
                           successHandler:^(NSDictionary *result) {
                               
-                              NSLog(@"success: %@", result);
+//                              NSLog(@"success: %@", result);
+                              nbPages = [self showEvents:result];
                               dispatch_semaphore_signal(semaphore);
                           }
                           failureHandler:^(NSError *error) {
@@ -806,6 +793,7 @@
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:20]];
     NSLog(@"test_getEventsForLocationToulouse Ended.");
 }
+
 
 -(void) testRegexp {
     
@@ -886,6 +874,41 @@
     NSLog(@"OK sessionJSON = %@", sessionJSON);
     
     return sessionJSON;
+}
+
+-(NSInteger) showEvents:(id)result {
+    
+    HPLastFmMapper_getEvents *mapper = [[HPLastFmMapper_getEvents alloc] initWithDictionary:result];
+    
+    NSLog(@"location: %@", mapper.location);
+    
+    NSLog(@"page: %d / %d (Size Page=%d) (total=%d)", mapper.page, mapper.totalPages, mapper.perPage, mapper.total);
+    
+    NSInteger nbPages = mapper.totalPages;
+    
+    [mapper.events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        HPLastFm_Event *event = obj;
+        
+        NSLog(@"title: %@", event.title);
+        NSLog(@"Start: %@ (%@) End: %@ (%@) (cancel=%d)",
+              event.startDateString, event.startDate,
+              event.endDateString, event.endDate,
+              event.cancelled);
+        NSLog(@"artistHeadliner: %@", event.artistHeadliner);
+        NSLog(@"artists:%@", event.artists);
+        
+        NSLog(@"descriptionEvent: %@", event.descriptionEvent);
+        NSLog(@"locationName: %@, %@(%@) GPS (%f, %f)", event.locationName, event.city, event.country,
+              event.gps.latitude, event.gps.longitude);
+        NSLog(@"web: %@", event.webSite);
+        NSLog(@"tel: %@", event.phoneNumber);
+        NSLog(@"image: %@", event.urlImage);
+        
+        NSLog(@"-------------------------------------------------------");
+    }];
+    
+    return nbPages;
 }
 
 @end

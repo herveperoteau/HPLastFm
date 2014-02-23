@@ -12,6 +12,8 @@
 @interface HPLastFmMapperPaging ()
 
 @property (nonatomic, strong) NSString *artist;
+@property (nonatomic, strong) NSString *location;
+
 @property (nonatomic, strong) NSNumber *pageNumber;
 @property (nonatomic, strong) NSNumber *perPageNumber;
 @property (nonatomic, strong) NSNumber *totalNumber;
@@ -28,10 +30,29 @@
         NSDictionary *events = [self.datas objectForKey:@"events"];
         NSDictionary *attr = [events objectForKey:@"@attr"];
         self.artist = [attr objectForKey:@"artist"];
+        if (_artist == nil) {
+            self.artist = @"";
+        }
     }
     
     return _artist;
 }
+
+-(NSString *) location {
+    
+    if (!_location) {
+        
+        NSDictionary *events = [self.datas objectForKey:@"events"];
+        NSDictionary *attr = [events objectForKey:@"@attr"];
+        self.location = [attr objectForKey:@"location"];
+        if (_location == nil) {
+            self.location = @"";
+        }
+    }
+    
+    return _location;
+}
+
 
 -(NSInteger) page {
     

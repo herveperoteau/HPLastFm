@@ -749,6 +749,7 @@
 
 - (NSOperation *)getEventsForLongitude:(NSString *)longitude
                               Latitude:(NSString *)latitude
+                              Distance:(NSString *)distance
                                   Page:(NSInteger)page
                                  Limit:(NSInteger)limit
                                    Tag:(NSString *)tag
@@ -763,6 +764,7 @@
     if (page!=0) params[@"page"] = @(page);
     if (limit!=0) params[@"limit"] = @(limit);
     if (tag) params[@"tag"] = tag;
+    if (distance) params[@"distance"] = distance;
     
     return [self performApiCallForMethod:@"geo.getEvents"
                                   doPost:NO

@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
-#import "HPLastFmMapper_getEventsForArtist.h"
+#import "HPLastFmMapper_getEvents.h"
 #import "HPLastFm_Event.h"
 
-@interface HPLastFmMapper_getEventsForArtist ()
+@interface HPLastFmMapper_getEvents ()
 
 @property (nonatomic, strong) NSArray *events;  // Array of HPLastFm_Event
 
 @end
 
-@implementation HPLastFmMapper_getEventsForArtist
+@implementation HPLastFmMapper_getEvents
 
 -(NSArray *) events {
     

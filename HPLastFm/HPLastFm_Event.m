@@ -1,17 +1,20 @@
 //
-//  HPLastFM_Event.m
+//  HPLastFm_Event
 //  HPLastFm
 //
 //  Created by Hervé PEROTEAU on 14/02/2014.
 //  Copyright (c) 2014 Hervé PEROTEAU. All rights reserved.
 //
 
+#import "HPLastFm.h"
 #import "HPLastFm_Event.h"
 #import <NSString+HTML.h>
 
 @interface HPLastFm_Event ()
 
+@property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *artistHeadliner;
+@property (nonatomic, strong) NSArray *artists;
 @property (nonatomic, strong) NSString *descriptionEvent;
 @property (nonatomic, strong) NSString *locationName;
 @property (nonatomic, strong) NSString *latGps;
@@ -22,12 +25,26 @@
 @property (nonatomic, strong) NSString *webSite;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *urlImage;
-@property (nonatomic, strong) NSString *startDate;
+@property (nonatomic, strong) NSString *startDateString;
+@property (nonatomic, strong) NSDate *startDate;
+@property (nonatomic, strong) NSString *endDateString;
+@property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, assign) NSNumber *cancelledNumber;
 
 @end
 
 @implementation HPLastFm_Event
+
+-(NSString *) title {
+    
+    if (!_title) {
+        
+        self.title = [self.datas valueForKeyPath:@"title"];
+    }
+    
+    return _title;
+}
+
 
 -(NSString *) artistHeadliner {
     
@@ -37,6 +54,41 @@
     }
     
     return _artistHeadliner;
+}
+
+//artists =                 {
+//    artist =                     (
+//                                  MGMT,
+//                                  Phoenix,
+//                                  Blondie,
+//                                  UB40,
+//                                  Indochine,
+//                                  "Shaka Ponk",
+//                                  "-M-",
+//                                  "Ga\U00ebtan Roussel",
+//                                  FAUVE,
+//                                  "F.F.F."
+//                                  );
+//    headliner = MGMT;
+//};
+
+-(NSArray *) artists {
+    
+    if (!_artists) {
+        
+        id artistsJSON = [self.datas valueForKeyPath:@"artists.artist"];
+        
+        if ([artistsJSON isKindOfClass:NSArray.class]) {
+            
+            self.artists = [NSArray arrayWithArray:artistsJSON];
+        }
+        else {
+            
+            self.artists = [NSArray arrayWithObject:artistsJSON];
+        }
+    }
+    
+    return _artists;
 }
 
 -(NSString *) descriptionEvent {
@@ -149,14 +201,44 @@
 }
 
 
--(NSString *)startDate {
+-(NSString *)startDateString {
+    
+    if (!_startDateString) {
+        
+        self.startDateString = [self.datas valueForKeyPath:@"startDate"];
+    }
+    
+    return _startDateString;
+}
+
+-(NSDate *) startDate {
     
     if (!_startDate) {
         
-        self.startDate = [self.datas valueForKeyPath:@"startDate"];
+        self.startDate = [[HPLastFm sharedInstance] transformValue:[self startDateString] intoClass:@"NSDate"];
     }
     
     return _startDate;
+}
+
+-(NSString *)endDateString {
+    
+    if (!_endDateString) {
+        
+        self.endDateString = [self.datas valueForKeyPath:@"endDate"];
+    }
+    
+    return _endDateString;
+}
+
+-(NSDate *) endDate {
+    
+    if (!_endDate) {
+        
+        self.endDate = [[HPLastFm sharedInstance] transformValue:[self endDateString] intoClass:@"NSDate"];
+    }
+    
+    return _endDate;
 }
 
 -(BOOL)cancelled {

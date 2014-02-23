@@ -8,7 +8,7 @@
 
 #import "HPLastFmMapperPaging.h"
 
-@interface HPLastFmMapper_getEventsForArtist : HPLastFmMapperPaging
+@interface HPLastFmMapper_getEvents : HPLastFmMapperPaging
 
 @property (nonatomic, readonly) NSArray *events;  // Array of HPLastFm_Event
 

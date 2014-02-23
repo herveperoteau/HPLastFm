@@ -256,6 +256,7 @@ typedef enum {
 
 - (NSOperation *)getEventsForLongitude:(NSString *)longitude
                              Latitude:(NSString *)latitude
+                              Distance:(NSString *)distance
                                   Page:(NSInteger)page
                                  Limit:(NSInteger)limit
                                  Tag:(NSString *)tag

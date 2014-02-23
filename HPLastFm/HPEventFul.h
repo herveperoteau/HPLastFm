@@ -22,6 +22,9 @@
 
 +(HPEventFul *) sharedInstance;
 
+
+// ATTENTION API PAYANTES!!!
+// http://api.eventful.com/docs/events/search
 -(NSOperation *) eventsSearchWithParams:(NSDictionary *)params
                          successHandler:(ReturnBlockWithDictionary)successHandler
                          failureHandler:(ReturnBlockWithError)failureHandler;
