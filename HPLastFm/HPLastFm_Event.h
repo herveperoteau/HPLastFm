@@ -21,7 +21,8 @@
 @property (nonatomic, readonly) NSString *country;
 @property (nonatomic, readonly) NSString *webSite;
 @property (nonatomic, readonly) NSString *phoneNumber;
-@property (nonatomic, readonly) NSString *urlImage;
+@property (nonatomic, readonly) NSString *urlImageEvent;
+@property (nonatomic, readonly) NSString *urlImageVenue;
 @property (nonatomic, readonly) NSString *startDateString; // "Fri, 27 Jun 2014 18:30:00";
 @property (nonatomic, readonly) NSString *endDateString;   // "Sun, 20 Jul 2014 16:05:01";
 @property (nonatomic, readonly) NSDate *startDate;

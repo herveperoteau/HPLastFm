@@ -24,7 +24,8 @@
 @property (nonatomic, strong) NSString *country;
 @property (nonatomic, strong) NSString *webSite;
 @property (nonatomic, strong) NSString *phoneNumber;
-@property (nonatomic, strong) NSString *urlImage;
+@property (nonatomic, strong) NSString *urlImageEvent;
+@property (nonatomic, strong) NSString *urlImageVenue;
 @property (nonatomic, strong) NSString *startDateString;
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSString *endDateString;
@@ -180,26 +181,46 @@
     return _phoneNumber;
 }
 
--(NSString *) urlImage {
+-(NSString *) urlImageEvent {
     
-    if (!_urlImage) {
+    if (!_urlImageEvent) {
         
         NSArray *images = [self.datas valueForKeyPath:@"image"];
         
-        self.urlImage = [self urlImageFromJSON:images SizeName:kSizeMega];
+        self.urlImageEvent = [self urlImageFromJSON:images SizeName:kSizeMega];
 
-        if (_urlImage == nil) {
-            self.urlImage = [self urlImageFromJSON:images SizeName:kSizeExtraLarge];
+        if (_urlImageEvent == nil) {
+            self.urlImageEvent = [self urlImageFromJSON:images SizeName:kSizeExtraLarge];
         }
         
-        if (_urlImage == nil) {
-            self.urlImage = [self urlImageFromJSON:images SizeName:kSizeLarge];
+        if (_urlImageEvent == nil) {
+            self.urlImageEvent = [self urlImageFromJSON:images SizeName:kSizeLarge];
         }
     }
     
-    return _urlImage;
+    return _urlImageEvent;
 }
 
+//@property (nonatomic, readonly) NSString *urlImageVenue;
+-(NSString *) urlImageVenue {
+    
+    if (!_urlImageVenue) {
+        
+        NSArray *images = [self.datas valueForKeyPath:@"venue.image"];
+        
+        self.urlImageVenue = [self urlImageFromJSON:images SizeName:kSizeMega];
+        
+        if (_urlImageVenue == nil) {
+            self.urlImageVenue = [self urlImageFromJSON:images SizeName:kSizeExtraLarge];
+        }
+        
+        if (_urlImageVenue == nil) {
+            self.urlImageVenue = [self urlImageFromJSON:images SizeName:kSizeLarge];
+        }
+    }
+    
+    return _urlImageVenue;
+}
 
 -(NSString *)startDateString {
     
