@@ -254,23 +254,21 @@ typedef enum {
 /// @name Geo methods
 ///----------------------------------
 
-- (NSOperation *)getEventsForLongitude:(NSString *)longitude
-                             Latitude:(NSString *)latitude
-                              Distance:(NSString *)distance
+-(NSOperation *) getEventsForLongitude:(NSString *)longitude
+                               Latitude:(NSString *)latitude
+                               Distance:(NSString *)distance
+                                   Page:(NSInteger)page
+                                  Limit:(NSInteger)limit
+                                    Tag:(NSString *)tag
+                         successHandler:(ReturnBlockWithDictionary)successHandler
+                         failureHandler:(ReturnBlockWithError)failureHandler;
+
+-(NSOperation *) getEventsForLocation:(NSString *)location
                                   Page:(NSInteger)page
                                  Limit:(NSInteger)limit
-                                 Tag:(NSString *)tag
-                       successHandler:(ReturnBlockWithDictionary)successHandler
-                       failureHandler:(ReturnBlockWithError)failureHandler;
-
-- (NSOperation *)getEventsForLocation:(NSString *)location
-                                 Page:(NSInteger)page
-                                Limit:(NSInteger)limit
-                                  Tag:(NSString *)tag
-                        successHandler:(ReturnBlockWithDictionary)successHandler
-                        failureHandler:(ReturnBlockWithError)failureHandler;
-
-
+                                   Tag:(NSString *)tag
+                            successHandler:(ReturnBlockWithDictionary)successHandler
+                            failureHandler:(ReturnBlockWithError)failureHandler;
 
 
 @end

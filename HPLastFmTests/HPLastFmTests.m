@@ -84,6 +84,8 @@
     
   //  [self login];
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getInfoForArtist:@"INDOCHINE"
                      successHandler:^(NSDictionary *result) {
                          
@@ -155,12 +157,14 @@
     NSLog(@"testGetEventsForArtist1 ... ");
     __block NSInteger nbPages = 0;
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getEventsForArtist:artist
                                 Limit:10
                                  page:page
                            successHandler:^(NSDictionary *result) {
                                
-//                               NSLog(@"success: %@", result);
+                               NSLog(@"success: %@", result);
                                nbPages = [self showEvents:result];
                                dispatch_semaphore_signal(semaphore);
                      }
@@ -190,6 +194,8 @@
 {
     NSLog(@"test_getTopAlbumsForArtist %@ ... ", artist);
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getTopAlbumsForArtist:artist
                           successHandler:^(NSDictionary *result) {
                               NSLog(@"success: %@", result);
@@ -214,6 +220,8 @@
 {
     NSLog(@"test_getTopTracksForArtist ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getTopTracksForArtist:ARTIST1
                           successHandler:^(NSDictionary *result) {
                               NSLog(@"success: %@", result);
@@ -237,6 +245,8 @@
 {
     NSLog(@"test_getSimilarArtistsTo ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getSimilarArtistsTo:ARTIST1
                        successHandler:^(NSDictionary *result) {
                            NSLog(@"success: %@", result);
@@ -259,6 +269,8 @@
 {
     NSLog(@"test_getInfoForAlbum ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getInfoForAlbum:@"les chansons de l'innocence retrouvée"
                             artist:@"Étienne daho"
                         successHandler:^(NSDictionary *result) {
@@ -293,6 +305,8 @@
 {
     NSLog(@"test_getTracksForAlbum ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getTracksForAlbum:ALBUM1
                             artist:ARTIST1
                     successHandler:^(NSDictionary *result) {
@@ -317,6 +331,8 @@
 {
     NSLog(@"test_getBuyLinksForAlbum ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getBuyLinksForAlbum:ALBUM1
                               artist:ARTIST1
                                country:@"fr"
@@ -342,6 +358,8 @@
 {
     NSLog(@"test_getTopTagsForAlbum ... ");
  
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getTopTagsForAlbum:ALBUM1
                                 artist:ARTIST1
                         successHandler:^(NSDictionary *result) {
@@ -366,6 +384,8 @@
 {
     NSLog(@"test_getInfoForTrack ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+    
     [lastFmManager getInfoForTrack:TRACK1
                             artist:ARTIST1
                        successHandler:^(NSDictionary *result) {
@@ -389,6 +409,8 @@
 {
     NSLog(@"test_loveTrack ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager loveTrack:TRACK1
                       artist:ARTIST1
                     successHandler:^(NSDictionary *result) {
@@ -411,6 +433,8 @@
 - (void)test_unloveTrack
 {
     NSLog(@"test_unloveTrack ... ");
+    
+    lastFmManager.nextRequestIgnoresCache = YES;
     
     [lastFmManager unloveTrack:TRACK1
                       artist:ARTIST1
@@ -435,6 +459,8 @@
 {
     NSLog(@"test_banTrack ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager banTrack:TRACKBAN
                      artist:ARTISTBAN
                 successHandler:^(NSDictionary *result) {
@@ -458,6 +484,8 @@
 {
     NSLog(@"test_unbanTrack ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager unbanTrack:TRACKBAN
                      artist:ARTISTBAN
              successHandler:^(NSDictionary *result) {
@@ -482,6 +510,8 @@
 {
     NSLog(@"test_getBuyLinksForTrack ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getBuyLinksForTrack:TRACK1
                                 artist:ARTIST1
                                country:@"fr"
@@ -533,6 +563,8 @@
 {
     NSLog(@"test_getSessionForUser ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getSessionForUser:USERNAME_LASTFM
                                 password:PASSWORD_LASTFM
                         successHandler:^(NSDictionary *result) {
@@ -561,6 +593,8 @@
 {
     NSLog(@"test_sendNowPlayingTrack ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager sendNowPlayingTrack:TRACK1
                               byArtist:ARTIST1
                                onAlbum:ALBUM1
@@ -590,6 +624,8 @@
     
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager sendScrobbledTrack:TRACK1
                               byArtist:ARTIST1
                                onAlbum:ALBUM1
@@ -617,6 +653,8 @@
 {
     NSLog(@"test_getNewReleasesForUserBasedOnRecommendations ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getNewReleasesForUserBasedOnRecommendations:YES
      
                        successHandler:^(NSDictionary *result) {
@@ -641,6 +679,8 @@
 {
     NSLog(@"test_getRecommendedAlbumsWithLimit ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getRecommendedAlbumsWithLimit:10
                                                 successHandler:^(NSDictionary *result) {
                                                     
@@ -664,6 +704,8 @@
 - (void)test_logout
 {
     NSLog(@"test_logout ... ");
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager logout];
     NSLog(@"test_logout Ended.");
 }
@@ -673,25 +715,24 @@
 {
     NSLog(@"test_getEventsForLocationGpsToulouse ... ");
     
-    [lastFmManager getEventsForLongitude:TOULOUSE_LON
-                                Latitude:TOULOUSE_LAT
-                                Distance:@"50"
-                                    Page:1
-                                   Limit:50
-                                     Tag:nil
-     
-                                  successHandler:^(NSDictionary *result) {
-                                      
-//                                      NSLog(@"success: %@", result);
-                                      [self showEvents:result];
-
-                                      dispatch_semaphore_signal(semaphore);
-                                  }
-                                  failureHandler:^(NSError *error) {
-                                      NSLog(@"failure: %@", error);
-                                      XCTAssertTrue(NO, @"error: %@", [error localizedDescription]);
-                                      dispatch_semaphore_signal(semaphore);
-                                  }];
+    lastFmManager.nextRequestIgnoresCache = YES;
+    
+    /*NSOperation *op =*/ [lastFmManager getEventsForLongitude:TOULOUSE_LON
+                                                  Latitude:TOULOUSE_LAT
+                                                  Distance:@"200"
+                                                      Page:1
+                                                     Limit:200
+                                                       Tag:nil
+                                            successHandler:^(NSDictionary *result) {
+                                                NSLog(@"success: %@", result);
+                                                [self showEvents:result];
+                                                dispatch_semaphore_signal(semaphore);
+                                            }
+                                            failureHandler:^(NSError *error) {
+                                                NSLog(@"failure: %@", error);
+                                                XCTAssertTrue(NO, @"error: %@", [error localizedDescription]);
+                                                dispatch_semaphore_signal(semaphore);
+                                            }];
     
     NSLog(@"test_getEventsForLocationGpsToulouse wait ... ");
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
@@ -738,6 +779,8 @@
 {
     NSLog(@"test_getEventsForLocationGpsBarcelone ... ");
     
+    lastFmManager.nextRequestIgnoresCache = YES;
+
     [lastFmManager getEventsForLongitude:BARCELONE_LON
                                 Latitude:BARCELONE_LAT
                                 Distance:@"50"
@@ -769,6 +812,8 @@
     NSLog(@"test_getEventsForLocationToulouse ... ");
     
     __block NSInteger nbPages = 0;
+
+    lastFmManager.nextRequestIgnoresCache = YES;
 
     [lastFmManager getEventsForLocation:@"toulouse"
                                    Page:0
@@ -903,7 +948,8 @@
               event.gps.latitude, event.gps.longitude);
         NSLog(@"web: %@", event.webSite);
         NSLog(@"tel: %@", event.phoneNumber);
-        NSLog(@"image: %@", event.urlImage);
+        NSLog(@"imageEvent: %@", event.urlImageEvent);
+        NSLog(@"imageVenue: %@", event.urlImageVenue);
         
         NSLog(@"-------------------------------------------------------");
     }];
