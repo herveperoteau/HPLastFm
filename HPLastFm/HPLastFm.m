@@ -943,7 +943,11 @@
                                                         if (failureHandler) {
                                                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                                                                 failureHandler(error);
+                                                                dispatch_semaphore_signal(semaphore);
                                                             }];
+                                                        }
+                                                        else {
+                                                            dispatch_semaphore_signal(semaphore);
                                                         }
                                                     }
                                                     else {
@@ -954,9 +958,9 @@
                                                                         forMethod:method
                                                                    successHandler:successHandler
                                                                    failureHandler:failureHandler];
+
+                                                        dispatch_semaphore_signal(semaphore);
                                                     }
-                                                    
-                                                    dispatch_semaphore_signal(semaphore);
                                                 }];
         
         NSLog(@"%@.request %@ (sign:%@) start task ...", weakSelf.class, request.URL, signature);
