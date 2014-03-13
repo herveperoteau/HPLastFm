@@ -12,6 +12,7 @@
 
 @interface HPLastFm_Event ()
 
+@property (nonatomic, strong) NSString *idEvent;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *artistHeadliner;
 @property (nonatomic, strong) NSArray *artists;
@@ -35,6 +36,16 @@
 @end
 
 @implementation HPLastFm_Event
+
+-(NSString *) idEvent {
+    
+    if (!_idEvent) {
+        
+        self.idEvent = [NSString stringWithFormat:@"LASTFM_%@", [self.datas valueForKeyPath:@"id"]];
+    }
+    
+    return _idEvent;
+}
 
 -(NSString *) title {
     

@@ -935,6 +935,7 @@
         
         HPLastFm_Event *event = obj;
         
+        NSLog(@"id: %@", event.idEvent);
         NSLog(@"title: %@", event.title);
         NSLog(@"Start: %@ (%@) End: %@ (%@) (cancel=%d)",
               event.startDateString, event.startDate,

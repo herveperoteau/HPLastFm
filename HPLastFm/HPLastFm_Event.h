@@ -11,6 +11,7 @@
 
 @interface HPLastFm_Event : HPJSONMapper
 
+@property (nonatomic, readonly) NSString *idEvent;
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) NSString *artistHeadliner;
 @property (nonatomic, readonly) NSArray *artists;
