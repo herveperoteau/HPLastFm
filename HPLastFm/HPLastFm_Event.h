@@ -29,5 +29,6 @@
 @property (nonatomic, readonly) NSDate *startDate;
 @property (nonatomic, readonly) NSDate *endDate;
 @property (nonatomic, readonly) BOOL cancelled;
+@property (nonatomic, readonly) NSArray *tags;
 
 @end

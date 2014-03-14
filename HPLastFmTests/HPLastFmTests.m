@@ -943,6 +943,7 @@
               event.cancelled);
         NSLog(@"artistHeadliner: %@", event.artistHeadliner);
         NSLog(@"artists:%@", event.artists);
+        NSLog(@"tags:%@", event.tags);
         
         NSLog(@"descriptionEvent: %@", event.descriptionEvent);
         NSLog(@"locationName: %@, %@(%@) GPS (%f, %f)", event.locationName, event.city, event.country,

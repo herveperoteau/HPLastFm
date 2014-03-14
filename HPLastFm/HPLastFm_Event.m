@@ -32,6 +32,8 @@
 @property (nonatomic, strong) NSString *endDateString;
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, assign) NSNumber *cancelledNumber;
+@property (nonatomic, strong) NSArray *tags;
+
 
 @end
 
@@ -102,6 +104,49 @@
     
     return _artists;
 }
+
+//tags =                 {
+//    tag =                     (
+//                               indie,
+//                               electronic,
+//                               pop,
+//                               indietronica,
+//                               "minimal pop",
+//                               "indie pop",
+//                               soul
+//                               );
+//};
+
+-(NSArray *) tags {
+    
+    if (!_tags) {
+        
+        id tagsDico = [self.datas objectForKey:@"tags"];
+
+        if (tagsDico && [tagsDico isKindOfClass:NSDictionary.class]) {
+
+            NSDictionary *dico = tagsDico;
+            
+            id JSON = dico[@"tag"];
+            
+            if ([JSON isKindOfClass:NSArray.class]) {
+            
+                self.tags = [NSArray arrayWithArray:JSON];
+            }
+            else {
+            
+                self.tags = [NSArray arrayWithObject:JSON];
+            }
+        }
+        else {
+            
+            self.tags = [NSArray array];
+        }
+    }
+    
+    return _tags;
+}
+
 
 -(NSString *) descriptionEvent {
     
