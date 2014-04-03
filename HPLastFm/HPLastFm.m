@@ -163,175 +163,35 @@
                           successHandler:(ReturnBlockWithObject)successHandler
                           failureHandler:(ReturnBlockWithError)failureHandler {
     
+    return [self performApiCallForMethod:method
+                                  doPost:doPost
+                                useCache:useCache
+                              withParams:params
+                          OperationQueue:self.queueForeground
+                          successHandler:successHandler
+                          failureHandler:failureHandler];
+}
+
+- (NSOperation *)performApiCallForMethod:(NSString*)method
+                                  doPost:(BOOL)doPost
+                                useCache:(BOOL)useCache
+                              withParams:(NSDictionary *)params
+                          OperationQueue:(NSOperationQueue *)queue
+                          successHandler:(ReturnBlockWithObject)successHandler
+                          failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performSessionTaskAPIForMethod:method
                                          doPost:doPost
                                        useCache:useCache
                                      withParams:params
+                                 OperationQueue:queue
                                  successHandler:successHandler
                                  failureHandler:failureHandler];
     
-//    NSMutableDictionary *newParams = [params mutableCopy];
-//    [newParams setObject:method forKey:@"method"];
-//    [newParams setObject:self.apiKey forKey:@"api_key"];
-//    
-//    if (self.session) {
-//        [newParams setObject:self.session forKey:@"sk"];
-//    }
-//    
-//    if (self.username && ![params objectForKey:@"username"]) {
-//        [newParams setObject:self.username forKey:@"username"];
-//    }
-//    
-//    // Create signature by sorting all the parameters
-//    NSArray *sortedParamKeys = [[newParams allKeys] sortedArrayUsingSelector:@selector(compare:)];
-//    NSMutableString *signature = [[NSMutableString alloc] init];
-//    for (NSString *key in sortedParamKeys) {
-//        [signature appendString:[NSString stringWithFormat:@"%@%@", key, [newParams objectForKey:key]]];
-//    }
-//    [signature appendString:self.apiSecret];
-//    
-//    // Check if we have the object in cache
-//    NSString *cacheKey = [self md5sumFromString:signature];
-//    
-//    // We need to send all the params in a sorted fashion
-//    NSMutableArray *sortedParamsArray = [NSMutableArray array];
-//    for (NSString *key in sortedParamKeys) {
-//        [sortedParamsArray addObject:[NSString stringWithFormat:@"%@=%@", [self urlEscapeString:key], [self urlEscapeString:[newParams objectForKey:key]]]];
-//    }
-//    
-//    return [self _performApiCallForMethod:method
-//                                   doPost:doPost
-//                                 useCache:useCache
-//                                signature:cacheKey
-//                    withSortedParamsArray:sortedParamsArray
-//                        andOriginalParams:newParams
-//                           successHandler:successHandler
-//                           failureHandler:failureHandler];
 }
 
-//- (NSOperation *)_performApiCallForMethod:(NSString*)method
-//                                   doPost:(BOOL)doPost
-//                                 useCache:(BOOL)useCache
-//                                signature:(NSString *)signature
-//                    withSortedParamsArray:(NSArray *)sortedParamsArray
-//                        andOriginalParams:(NSDictionary *)originalParams
-//                           successHandler:(ReturnBlockWithObject)successHandler
-//                           failureHandler:(ReturnBlockWithError)failureHandler {
-//    
-//    NSBlockOperation *op = [[NSBlockOperation alloc] init];
-//    __unsafe_unretained NSBlockOperation *weakOp = op;
-//    
-//    [op addExecutionBlock:^{
-//        
-//        if ([weakOp isCancelled]) {
-//            return;
-//        }
-//                
-//        NSMutableURLRequest *request;
-//        if (doPost) {
-//            request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:API_URL]];
-//            request.timeoutInterval = self.timeoutInterval;
-//            [request setHTTPMethod:@"POST"];
-//            [request setHTTPBody:[[NSString stringWithFormat:@"%@&api_sig=%@&format=json", [sortedParamsArray componentsJoinedByString:@"&"], signature] dataUsingEncoding:NSUTF8StringEncoding]];
-//        } else {
-//            NSString *paramsString = [NSString stringWithFormat:@"%@&api_sig=%@&format=json", [sortedParamsArray componentsJoinedByString:@"&"], signature];
-//            NSString *urlString = [NSString stringWithFormat:@"%@?%@", API_URL, paramsString];
-//            
-//            NSURLRequestCachePolicy policy = NSURLRequestUseProtocolCachePolicy;
-//            if (!useCache) {
-//                policy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-//            }
-//            request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:policy timeoutInterval:self.timeoutInterval];
-//        }
-//        
-//        NSHTTPURLResponse *response;
-//        NSError *error;
-//        
-//        //NSLog(@"%@.sendSynchronousRequest %@ (doPost=%d)...", self.class, request.URL, doPost);
-//        
-//        NSData *data;
-//        
-//        if (useCache) {
-//            data = [[ISDiskCache sharedCache] objectForKey:signature];
-//        }
-//        
-//        if (data) {
-//
-//            NSLog(@"%@.request %@ (sign:%@) IN CACHE", self.class, request.URL, signature);
-//        }
-//        else {
-//            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//            [[ISDiskCache sharedCache] setObject:data forKey:signature];
-//        }
-//        
-//        if ([weakOp isCancelled]) {
-//            return;
-//        }
-//        
-////        NSNumber *maxAgeNumber = [response.allHeaderFields objectForKey:@"Access-Control-Max-Age"];
-////        NSLog (@"%@.maxAgeNumber = %@", self.class, maxAgeNumber);
-//        
-//        // Check for NSURLConnection errors
-//        if (error) {
-//            if (failureHandler) {
-//                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                    failureHandler(error);
-//                }];
-//            }
-//            return;
-//        }
-//
-////        NSString *strData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-////        NSLog(@"%@ result data=%@", self.class, strData);
-//        
-//        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data
-//                                                             options:0
-//                                                               error:&error];
-//
-//        //NSLog(@"%@ url=%@ result JSON=%@", self.class, request.URL, JSON);
-//        
-//        // Check for JSON parsing errors
-//        if (error) {
-//            if (failureHandler) {
-//                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                    failureHandler(error);
-//                }];
-//            }
-//            return;
-//        }
-//        
-//        // Check for Last.fm errors
-//        //        {
-//        //            "error": 10,
-//        //            "message": "Invalid API Key"
-//        //        }
-//        if ( [JSON objectForKey:@"error"] ) {
-//            if (failureHandler) {
-//                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                    NSError *lastfmError = [[NSError alloc] initWithDomain:LastFmServiceErrorDomain
-//                                                                      code:[[JSON objectForKey:@"error"] intValue]
-//                                                                  userInfo:@{NSLocalizedDescriptionKey:[JSON objectForKey:@"message"],
-//                                                                             @"method":method}];
-//                    
-//                    failureHandler(lastfmError);
-//                }];
-//            }
-//            return;
-//        }
-//     
-//        if (successHandler) {
-//            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                successHandler(JSON);
-//            }];
-//        }
-//    }];
-//    
-//    [self.queue addOperation:op];
-//    return op;
-//}
-
 - (BOOL)useCache {
+    
     BOOL useCache = !self.nextRequestIgnoresCache;
     self.nextRequestIgnoresCache = NO;
     return useCache;
@@ -342,15 +202,32 @@
 
 
 //http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Cher&api_key=2f3e308934e6170bf923bb3ec558b4e1&format=json
-- (NSOperation *)getInfoForArtist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForArtist:(NSString *)artist
+                       Background:(BOOL)flagBackgroundQueue
+                   successHandler:(ReturnBlockWithDictionary)successHandler
+                   failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"artist.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
                               withParams:@{ @"artist": [self forceString:artist] }
+                          OperationQueue:(flagBackgroundQueue?self.queueBackground:self.queueForeground)
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
+
+- (NSURLSessionDataTask *) createTaskGetInfoForArtist:(NSString *)artist
+                                       successHandler:(ReturnBlockWithDictionary)successHandler
+                                       failureHandler:(ReturnBlockWithError)failureHandler {
+    
+    return [self createSessionTaskAPIForMethod:@"artist.getInfo"
+                                        doPost:NO
+                                      useCache:[self useCache]
+                                    withParams:@{ @"artist": [self forceString:artist] }
+                                successHandler:successHandler
+                                failureHandler:failureHandler];
+}
+
 
 - (NSOperation *)getEventsForArtist:(NSString *)artist
                               Limit:(NSInteger)limit
@@ -365,6 +242,7 @@
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
+
 
 - (NSOperation *)getTopAlbumsForArtist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
@@ -398,14 +276,36 @@
 
 #pragma mark Album methods
 
-- (NSOperation *)getInfoForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForAlbum:(NSString *)album
+                          artist:(NSString *)artist
+                      Background:(BOOL)flagBackgroundQueue
+                  successHandler:(ReturnBlockWithDictionary)successHandler
+                  failureHandler:(ReturnBlockWithError)failureHandler {
     
     return [self performApiCallForMethod:@"album.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"album": [self forceString:album], @"autocorrect": @"1" }
+                              withParams:@{ @"artist": [self forceString:artist],
+                                            @"album": [self forceString:album],
+                                            @"autocorrect": @"1" }
+                          OperationQueue:(flagBackgroundQueue?self.queueBackground:self.queueForeground) 
                           successHandler:successHandler
                           failureHandler:failureHandler];
+}
+
+- (NSURLSessionDataTask *) createTaskGetInfoForAlbum:(NSString *)album
+                                              artist:(NSString *)artist
+                                       successHandler:(ReturnBlockWithDictionary)successHandler
+                                       failureHandler:(ReturnBlockWithError)failureHandler {
+    
+    return [self createSessionTaskAPIForMethod:@"album.getInfo"
+                                        doPost:NO
+                                      useCache:[self useCache]
+                                    withParams:@{ @"artist": [self forceString:artist],
+                                                  @"album": [self forceString:album],
+                                                  @"autocorrect": @"1" }
+                                successHandler:successHandler
+                                failureHandler:failureHandler];
 }
 
 - (NSOperation *)getTracksForAlbum:(NSString *)album artist:(NSString *)artist successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
@@ -745,7 +645,7 @@
 
 - (NSOperation *)getHypedTracksWithLimit:(NSInteger)limit page:(NSInteger)page successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     
-    return [self performSessionTaskAPIForMethod:@"chart.getHypedTracks"
+    return [self performApiCallForMethod:@"chart.getHypedTracks"
                                   doPost:NO
                                 useCache:[self useCache]
                               withParams:@{ @"limit": @(limit), @"page": @(page) }
@@ -813,6 +713,7 @@
                                               doPost:(BOOL)doPost
                                             useCache:(BOOL)useCache
                                           withParams:(NSDictionary *)params
+                                    OperationQueue:(NSOperationQueue *)queue
                                       successHandler:(ReturnBlockWithObject)successHandler
                                       failureHandler:(ReturnBlockWithError)failureHandler {
     
@@ -851,6 +752,7 @@
                                       signature:cacheKey
                           withSortedParamsArray:sortedParamsArray
                               andOriginalParams:newParams
+                                 OperationQueue:queue
                                  successHandler:successHandler
                                  failureHandler:failureHandler];
 }
@@ -861,6 +763,7 @@
                                       signature:(NSString *)signature
                           withSortedParamsArray:(NSArray *)sortedParamsArray
                               andOriginalParams:(NSDictionary *)originalParams
+                                 OperationQueue:(NSOperationQueue *)queue
                                  successHandler:(ReturnBlockWithObject)successHandler
                                  failureHandler:(ReturnBlockWithError)failureHandler {
     
@@ -869,7 +772,8 @@
     __unsafe_unretained NSBlockOperation *weakOp = op;
     __weak HPLastFm *weakSelf = self;
     
-    NSLog(@"%@.performSessionTaskAPIForMethod:%@ ...", self.class, method);
+    NSLog(@"%@.performSessionTaskAPIForMethod:%@ (queue=%@) (signature=%@)...", self.class, method,
+          (queue==self.queueForeground ? @"primary" : @"background"), signature);
 
     [op addExecutionBlock:^{
         
@@ -1009,9 +913,152 @@
         NSLog(@"%@.request %@ end wait task (state=%d)", self.class, request.URL, task.state);
     }];
     
-    [self.queue addOperation:op];
+    [queue addOperation:op];
     return op;
 }
+
+
+- (NSURLSessionDataTask *)createSessionTaskAPIForMethod:(NSString*)method
+                                                 doPost:(BOOL)doPost
+                                               useCache:(BOOL)useCache
+                                             withParams:(NSDictionary *)params
+                                         successHandler:(ReturnBlockWithObject)successHandler
+                                         failureHandler:(ReturnBlockWithError)failureHandler {
+    
+    NSMutableDictionary *newParams = [params mutableCopy];
+    [newParams setObject:method forKey:@"method"];
+    [newParams setObject:self.apiKey forKey:@"api_key"];
+    
+    if (self.session) {
+        [newParams setObject:self.session forKey:@"sk"];
+    }
+    
+    if (self.username && ![params objectForKey:@"username"]) {
+        [newParams setObject:self.username forKey:@"username"];
+    }
+    
+    // Create signature by sorting all the parameters
+    NSArray *sortedParamKeys = [[newParams allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    NSMutableString *signature = [[NSMutableString alloc] init];
+    for (NSString *key in sortedParamKeys) {
+        [signature appendString:[NSString stringWithFormat:@"%@%@", key, [newParams objectForKey:key]]];
+    }
+    [signature appendString:self.apiSecret];
+    
+    // Check if we have the object in cache
+    NSString *cacheKey = [self md5sumFromString:signature];
+    
+    // We need to send all the params in a sorted fashion
+    NSMutableArray *sortedParamsArray = [NSMutableArray array];
+    for (NSString *key in sortedParamKeys) {
+        [sortedParamsArray addObject:[NSString stringWithFormat:@"%@=%@", [self urlEscapeString:key], [self urlEscapeString:[newParams objectForKey:key]]]];
+    }
+    
+    return [self createSessionTaskAPIForMethod:method
+                                         doPost:doPost
+                                       useCache:useCache
+                                      signature:cacheKey
+                          withSortedParamsArray:sortedParamsArray
+                              andOriginalParams:newParams
+                                 successHandler:successHandler
+                                 failureHandler:failureHandler];
+}
+
+-(NSURLSessionDataTask *) createSessionTaskAPIForMethod:(NSString*)method
+                                                  doPost:(BOOL)doPost
+                                                useCache:(BOOL)useCache
+                                               signature:(NSString *)signature
+                                   withSortedParamsArray:(NSArray *)sortedParamsArray
+                                       andOriginalParams:(NSDictionary *)originalParams
+                                          successHandler:(ReturnBlockWithObject)successHandler
+                                          failureHandler:(ReturnBlockWithError)failureHandler {
+    
+    NSLog(@"%@.createSessionTaskAPIForMethod:%@ (signature=%@) ...", self.class, method, signature);
+    
+    // MAKE URL REQUEST
+        
+    NSMutableURLRequest *request;
+        
+    if (doPost) {
+            
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:API_URL]];
+            
+        request.timeoutInterval = self.timeoutInterval;
+        [request setHTTPMethod:@"POST"];
+            
+        NSData *body = [[NSString stringWithFormat:@"%@&api_sig=%@&format=json",
+                         [sortedParamsArray componentsJoinedByString:@"&"], signature] dataUsingEncoding:NSUTF8StringEncoding];
+            
+        [request setHTTPBody:body];
+    }
+    else {
+            
+        NSString *paramsString = [NSString stringWithFormat:@"%@&api_sig=%@&format=json",
+                                      [sortedParamsArray componentsJoinedByString:@"&"], signature];
+            
+        NSString *urlString = [NSString stringWithFormat:@"%@?%@", API_URL, paramsString];
+            
+        NSURLRequestCachePolicy policy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+        
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
+                                          cachePolicy:policy
+                                      timeoutInterval:self.timeoutInterval];
+    }
+        
+    // CHECK IN CACHE
+        
+    NSData *data;
+        
+    if (useCache) {
+        data = [[ISDiskCache sharedCache] objectForKey:signature];
+    }
+        
+    if (data) {
+            
+        NSLog(@"%@.createSessionTaskAPIForMethod request %@ (sign:%@) IN CACHE", self.class, request.URL, signature);
+            
+        [self parseDataToJSON:data
+                    forMethod:method
+               successHandler:successHandler
+               failureHandler:failureHandler];
+            
+        return nil; // Pas de Task
+    }
+        
+    // TASK ASYNC
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    NSLog(@"%@.createSessionTaskAPIForMethod:%@ dataTaskWithRequest ...", self.class, method);
+    
+    __weak HPLastFm *weakSelf = self;
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                    
+                                                NSLog(@"%@.createSessionTaskAPIForMethod completionHandler (error=%@)", weakSelf.class, error);
+                                                    
+                                                if (error) {
+                                                    if (failureHandler) {
+                                                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                            failureHandler(error);
+                                                        }];
+                                                    }
+                                                }
+                                                else {
+                                                        
+                                                    [[ISDiskCache sharedCache] setObject:data forKey:signature];
+                                                        
+                                                    [weakSelf parseDataToJSON:data
+                                                                    forMethod:method
+                                                               successHandler:successHandler
+                                                               failureHandler:failureHandler];
+                                                }
+                                            }];
+        
+    return task;
+}
+
 
 -(void)parseDataToJSON:(NSData *)data
              forMethod:(NSString *)method

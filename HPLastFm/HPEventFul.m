@@ -190,7 +190,7 @@
         }
     }];
     
-    [self.queue addOperation:op];
+    [self.queueForeground addOperation:op];
     return op;
 }
 

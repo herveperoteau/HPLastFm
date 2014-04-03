@@ -20,9 +20,13 @@
         
         self.apiKey = @"";
         
-        self.queue = [[NSOperationQueue alloc] init];
-        self.maxConcurrentOperationCount = 4;
         self.timeoutInterval = 20;
+        
+        self.queueBackground = [[NSOperationQueue alloc] init];
+        self.queueForeground.maxConcurrentOperationCount = 2;
+
+        self.queueForeground = [[NSOperationQueue alloc] init];
+        self.queueForeground.maxConcurrentOperationCount = 4;
         
         [[ISDiskCache sharedCache] setLimitOfSize:10*1024*1024]; // 10MB
         
@@ -58,11 +62,6 @@
         }
     }
     return attributes;
-}
-
-- (void)setMaxConcurrentOperationCount:(NSInteger)maxConcurrentOperationCount {
-    _maxConcurrentOperationCount = maxConcurrentOperationCount;
-    self.queue.maxConcurrentOperationCount = _maxConcurrentOperationCount;
 }
 
 - (BOOL)useCache {

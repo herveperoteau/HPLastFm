@@ -66,9 +66,14 @@ typedef enum {
 /// @name Artist methods
 ///----------------------------------
 
-- (NSOperation *)getInfoForArtist:(NSString *)artist
-                   successHandler:(ReturnBlockWithDictionary)successHandler
-                   failureHandler:(ReturnBlockWithError)failureHandler;
+//- (NSOperation *)getInfoForArtist:(NSString *)artist
+//                       Background:(BOOL)flagBackgroundQueue
+//                   successHandler:(ReturnBlockWithDictionary)successHandler
+//                   failureHandler:(ReturnBlockWithError)failureHandler;
+
+- (NSURLSessionDataTask *) createTaskGetInfoForArtist:(NSString *)artist
+                                       successHandler:(ReturnBlockWithDictionary)successHandler
+                                       failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getEventsForArtist:(NSString *)artist
                               Limit:(NSInteger)limit
@@ -92,10 +97,16 @@ typedef enum {
 /// @name Album methods
 ///----------------------------------
 
-- (NSOperation *)getInfoForAlbum:(NSString *)album
-                          artist:(NSString *)artist
-                  successHandler:(ReturnBlockWithDictionary)successHandler
-                  failureHandler:(ReturnBlockWithError)failureHandler;
+//- (NSOperation *)getInfoForAlbum:(NSString *)album
+//                          artist:(NSString *)artist
+//                      Background:(BOOL)flagBackgroundQueue
+//                  successHandler:(ReturnBlockWithDictionary)successHandler
+//                  failureHandler:(ReturnBlockWithError)failureHandler;
+
+- (NSURLSessionDataTask *) createTaskGetInfoForAlbum:(NSString *)album
+                                              artist:(NSString *)artist
+                                      successHandler:(ReturnBlockWithDictionary)successHandler
+                                      failureHandler:(ReturnBlockWithError)failureHandler;
 
 - (NSOperation *)getTracksForAlbum:(NSString *)album
                             artist:(NSString *)artist

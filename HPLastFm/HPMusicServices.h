@@ -18,10 +18,12 @@ typedef void (^ReturnBlockWithError)(NSError *error);
 @property (copy, nonatomic) NSString *session;
 @property (copy, nonatomic) NSString *username;
 @property (copy, nonatomic) NSString *apiKey;
-@property (nonatomic) NSInteger maxConcurrentOperationCount;
 @property (nonatomic) NSTimeInterval timeoutInterval;
+
 @property (nonatomic) BOOL nextRequestIgnoresCache;
-@property (nonatomic, strong) NSOperationQueue *queue;
+
+@property (nonatomic, strong) NSOperationQueue *queueForeground;
+@property (nonatomic, strong) NSOperationQueue *queueBackground;
 
 - (NSString *)forceString:(NSString *)value;
 - (NSString *)md5sumFromString:(NSString *)string;
