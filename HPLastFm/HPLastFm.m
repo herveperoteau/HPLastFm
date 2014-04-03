@@ -856,21 +856,27 @@
 }
 
 -(NSOperation *) performSessionTaskAPIForMethod:(NSString*)method
-                                              doPost:(BOOL)doPost
-                                            useCache:(BOOL)useCache
-                                           signature:(NSString *)signature
-                               withSortedParamsArray:(NSArray *)sortedParamsArray
-                                   andOriginalParams:(NSDictionary *)originalParams
-                                      successHandler:(ReturnBlockWithObject)successHandler
-                                      failureHandler:(ReturnBlockWithError)failureHandler {
+                                         doPost:(BOOL)doPost
+                                       useCache:(BOOL)useCache
+                                      signature:(NSString *)signature
+                          withSortedParamsArray:(NSArray *)sortedParamsArray
+                              andOriginalParams:(NSDictionary *)originalParams
+                                 successHandler:(ReturnBlockWithObject)successHandler
+                                 failureHandler:(ReturnBlockWithError)failureHandler {
     
     NSBlockOperation *op = [[NSBlockOperation alloc] init];
+    
     __unsafe_unretained NSBlockOperation *weakOp = op;
     __weak HPLastFm *weakSelf = self;
+    
+    NSLog(@"%@.performSessionTaskAPIForMethod:%@ ...", self.class, method);
 
     [op addExecutionBlock:^{
         
+        NSLog(@"%@.performSessionTaskAPIForMethod:%@ start ...", self.class, method);
+
         if ([weakOp isCancelled]) {
+            NSLog(@"%@.performSessionTaskAPIForMethod:%@ cancelled", self.class, method);
             return;
         }
         
@@ -898,9 +904,9 @@
             NSString *urlString = [NSString stringWithFormat:@"%@?%@", API_URL, paramsString];
             
             NSURLRequestCachePolicy policy = NSURLRequestUseProtocolCachePolicy;
-            if (!useCache) {
+//            if (!useCache) {
                 policy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-            }
+//            }
             
             request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
                                               cachePolicy:policy
@@ -932,7 +938,9 @@
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
         NSURLSession *session = [NSURLSession sharedSession];
-            
+        
+        NSLog(@"%@.performSessionTaskAPIForMethod:%@ dataTaskWithRequest ...", self.class, method);
+
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                     
@@ -964,25 +972,41 @@
                                                 }];
         
         NSLog(@"%@.request %@ (sign:%@) start task ...", weakSelf.class, request.URL, signature);
+
+        NSDate *start = [NSDate date];
+
         [task resume];
 
         // Wait task ended
+        
         while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
          
-            //NSLog(@"%@.request %@ wait task ended ...", self.class, request.URL);
+            NSLog(@"%@.request %@ wait task ended ...", self.class, request.URL);
 
             [NSThread sleepForTimeInterval:1.0];
-//            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-//                                     beforeDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
 
             if ([weakOp isCancelled]) {
             
                 NSLog(@"%@.request : op is cancelled => cancel task ...", weakSelf.class);
                 [task cancel];
+                dispatch_semaphore_signal(semaphore);
+                continue;
+            }
+            
+            NSTimeInterval delayWait = -1 * [start timeIntervalSinceNow];
+
+            if (delayWait > weakSelf.timeoutInterval) {
+                
+                NSLog(@"%@.request : force to cancel because delayWait=%f > timeOut=%f...",
+                      weakSelf.class, delayWait, weakSelf.timeoutInterval);
+                
+                [task cancel];
+                dispatch_semaphore_signal(semaphore);
+                continue;
             }
         }
         
-        NSLog(@"%@.request %@ end wait task", self.class, request.URL);
+        NSLog(@"%@.request %@ end wait task (state=%d)", self.class, request.URL, task.state);
     }];
     
     [self.queue addOperation:op];
