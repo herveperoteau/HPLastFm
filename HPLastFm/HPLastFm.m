@@ -910,7 +910,7 @@
             }
         }
         
-        NSLog(@"%@.request %@ end wait task (state=%d)", self.class, request.URL, task.state);
+        NSLog(@"%@.request %@ end wait task (state=%ld)", self.class, request.URL, task.state);
     }];
     
     [queue addOperation:op];
