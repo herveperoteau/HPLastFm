@@ -1075,9 +1075,9 @@
     if (error) {
         NSLog(@"Echec parseDataToJSON error=%@", error);
         if (failureHandler) {
- //           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 failureHandler(error);
- //           }];
+            }];
         }
         return;
     }
@@ -1089,22 +1089,22 @@
     //        }
     if ( [JSON objectForKey:@"error"] ) {
         if (failureHandler) {
-//            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSError *lastfmError = [[NSError alloc] initWithDomain:LastFmServiceErrorDomain
                                                                   code:[[JSON objectForKey:@"error"] intValue]
                                                               userInfo:@{NSLocalizedDescriptionKey:[JSON objectForKey:@"message"],
                                                                          @"method":method}];
                 
                 failureHandler(lastfmError);
-//            }];
+            }];
         }
         return;
     }
     
     if (successHandler) {
-//        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             successHandler(JSON);
-//        }];
+        }];
     }
 }
 
