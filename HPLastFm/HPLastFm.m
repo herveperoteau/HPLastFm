@@ -213,6 +213,21 @@
     return artistName;
 }
 
+-(NSString *) artistNameWithLastFmName:(NSString *)artistLastFM {
+    
+    if ([artistLastFM compare:@"-M-" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return @"M";
+    }
+    
+    if ([artistLastFM compare:@"P!nk" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return @"Pink";
+    }
+    
+    return artistLastFM;
+}
+
+
+
 //http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Cher&api_key=2f3e308934e6170bf923bb3ec558b4e1&format=json
 - (NSOperation *)getInfoForArtist:(NSString *)artist
                        Background:(BOOL)flagBackgroundQueue
