@@ -86,8 +86,8 @@
     
     lastFmManager.nextRequestIgnoresCache = YES;
 
-    [lastFmManager getInfoForArtist:@"INDOCHINE"
-                     successHandler:^(NSDictionary *result) {
+    NSURLSessionDataTask *task = [lastFmManager createTaskGetInfoForArtist:@"Pink"
+                                                            successHandler:^(NSDictionary *result) {
                          
                          //NSLog(@"success: %@", result);
                          
@@ -112,6 +112,8 @@
                          dispatch_semaphore_signal(semaphore);
                      }];
 
+    [task resume];
+    
     NSLog(@"testGetInfoForArtist1 wait ... ");
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
@@ -186,8 +188,10 @@
 - (void)test_getTopAlbumsForArtist
 {
 //    [self getTopAlbumsForArtist:@"rihanna"];
-    [self getTopAlbumsForArtist:@"the strokes"];
+ //   [self getTopAlbumsForArtist:@"the strokes"];
     [self getTopAlbumsForArtist:@"muse"];
+ //   [self getTopAlbumsForArtist:@"rihanna"];
+    
 }
 
 - (void)getTopAlbumsForArtist:(NSString *)artist
@@ -271,7 +275,7 @@
     
     lastFmManager.nextRequestIgnoresCache = YES;
 
-    [lastFmManager getInfoForAlbum:@"les chansons de l'innocence retrouvée"
+    NSURLSessionDataTask *task = [lastFmManager createTaskGetInfoForAlbum:@"les chansons de l'innocence retrouvée"
                             artist:@"Étienne daho"
                         successHandler:^(NSDictionary *result) {
                             
@@ -292,6 +296,8 @@
                             XCTAssertTrue(NO, @"error: %@", [error localizedDescription]);
                             dispatch_semaphore_signal(semaphore);
                         }];
+    
+    [task resume];
     
     NSLog(@"test_getInfoForAlbum wait ... ");
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))

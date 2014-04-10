@@ -200,6 +200,18 @@
 #pragma mark -
 #pragma mark Artist methods
 
+-(NSString *) artistLastFmName:(NSString *)artistName {
+    
+    if ([artistName compare:@"M" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return @"-M-";
+    }
+    
+    if ([artistName compare:@"Pink" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return @"P!nk";
+    }
+    
+    return artistName;
+}
 
 //http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Cher&api_key=2f3e308934e6170bf923bb3ec558b4e1&format=json
 - (NSOperation *)getInfoForArtist:(NSString *)artist
@@ -210,7 +222,7 @@
     return [self performApiCallForMethod:@"artist.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist] }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]] }
                           OperationQueue:(flagBackgroundQueue?self.queueBackground:self.queueForeground)
                           successHandler:successHandler
                           failureHandler:failureHandler];
@@ -223,7 +235,7 @@
     return [self createSessionTaskAPIForMethod:@"artist.getInfo"
                                         doPost:NO
                                       useCache:[self useCache]
-                                    withParams:@{ @"artist": [self forceString:artist] }
+                                    withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]] }
                                 successHandler:successHandler
                                 failureHandler:failureHandler];
 }
@@ -238,7 +250,9 @@
     return [self performApiCallForMethod:@"artist.getEvents"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"limit": @(limit), @"page": @(page) }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]],
+                                            @"limit": @(limit),
+                                            @"page": @(page) }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -249,7 +263,7 @@
     return [self performApiCallForMethod:@"artist.getTopAlbums"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"limit": @"500" }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]], @"limit": @"500" }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -259,7 +273,7 @@
     return [self performApiCallForMethod:@"artist.getTopTracks"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"limit": @"500" }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]], @"limit": @"500" }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -269,7 +283,7 @@
     return [self performApiCallForMethod:@"artist.getSimilar"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"limit": @"500" }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]], @"limit": @"500" }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -285,7 +299,7 @@
     return [self performApiCallForMethod:@"album.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist],
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]],
                                             @"album": [self forceString:album],
                                             @"autocorrect": @"1" }
                           OperationQueue:(flagBackgroundQueue?self.queueBackground:self.queueForeground) 
@@ -301,7 +315,7 @@
     return [self createSessionTaskAPIForMethod:@"album.getInfo"
                                         doPost:NO
                                       useCache:[self useCache]
-                                    withParams:@{ @"artist": [self forceString:artist],
+                                    withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]],
                                                   @"album": [self forceString:album],
                                                   @"autocorrect": @"1" }
                                 successHandler:successHandler
@@ -313,7 +327,9 @@
     return [self performApiCallForMethod:@"album.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"album": [self forceString:album], @"1": @"1" }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]],
+                                            @"album": [self forceString:album],
+                                            @"1": @"1" }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -323,7 +339,9 @@
     return [self performApiCallForMethod:@"album.getBuylinks"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"album": [self forceString:album], @"country": [self forceString:country] }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]],
+                                            @"album": [self forceString:album],
+                                            @"country": [self forceString:country] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -333,7 +351,8 @@
     return [self performApiCallForMethod:@"album.getTopTags"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"artist": [self forceString:artist], @"album": [self forceString:album] }
+                              withParams:@{ @"artist": [self forceString:[self artistLastFmName:artist]],
+                                            @"album": [self forceString:album] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -345,7 +364,8 @@
     return [self performApiCallForMethod:@"track.getInfo"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -354,7 +374,8 @@
     return [self performApiCallForMethod:@"track.love"
                                   doPost:YES
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -363,7 +384,8 @@
     return [self performApiCallForMethod:@"track.unlove"
                                   doPost:YES
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -372,7 +394,8 @@
     return [self performApiCallForMethod:@"track.ban"
                                   doPost:YES
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -381,7 +404,8 @@
     return [self performApiCallForMethod:@"track.unban"
                                   doPost:YES
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -391,7 +415,9 @@
     return [self performApiCallForMethod:@"track.getBuylinks"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist], @"country": [self forceString:country] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]],
+                                            @"country": [self forceString:country] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -401,7 +427,8 @@
     return [self performApiCallForMethod:@"track.getsimilar"
                                   doPost:NO
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:[self artistLastFmName:artist]] }
                           successHandler:successHandler
                           failureHandler:failureHandler];
 }
@@ -476,7 +503,7 @@
 - (NSOperation *)sendScrobbledTrack:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album atTimestamp:(NSTimeInterval)timestamp successHandler:(ReturnBlockWithDictionary)successHandler failureHandler:(ReturnBlockWithError)failureHandler {
     NSDictionary *params = @{
                              @"track": [self forceString:track],
-                             @"artist": [self forceString:artist],
+                             @"artist": [self forceString:[self artistLastFmName:artist]],
                              @"album": [self forceString:album],
                              @"timestamp": @((int)timestamp)
                              };

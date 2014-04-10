@@ -53,6 +53,8 @@ typedef enum {
 
 + (HPLastFm *)sharedInstance;
 
+-(NSString *) artistLastFmName:(NSString *)artistName;
+
 - (NSOperation *)performApiCallForMethod:(NSString*)method
                                   doPost:(BOOL)doPost
                                 useCache:(BOOL)useCache
