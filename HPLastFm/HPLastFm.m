@@ -209,6 +209,10 @@
     if ([artistName compare:@"Pink" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
         return @"P!nk";
     }
+
+    if ([artistName compare:@"THE DO" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return @"THE DØ";
+    }
     
     return artistName;
 }
@@ -222,7 +226,11 @@
     if ([artistLastFM compare:@"P!nk" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
         return @"Pink";
     }
-    
+
+    if ([artistLastFM compare:@"THE DØ" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return @"THE DO";
+    }
+
     return artistLastFM;
 }
 
